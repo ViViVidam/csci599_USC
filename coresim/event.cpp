@@ -403,8 +403,14 @@ void FlowArrivalEvent::process_event() {
                 sum_prob += p;
             }
             double prob_avg = sum_prob / num_samples;
+            double deviation = 0;
+            for (double p : qos_h_admit_prob) {
+                deviation += (prob_avg - p) * (prob_avg - p);
+            }
+            deviation = deviation / num_samples;
             std::cout << std::setprecision(2) << std::fixed;
             std::cout << "All QoS_H Host avg prob: " << prob_avg << std::endl;
+            std::cout << "All QoS_H Host dev prob: " << deviation << std::endl;
             //sort(qos_h_down_prob.begin(), qos_h_down_prob.end());
             //double prob_50th = qos_h_down_prob[num_samples * 0.50];
             //double prob_90th = qos_h_down_prob[num_samples * 0.90];

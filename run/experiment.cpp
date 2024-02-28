@@ -1553,7 +1553,7 @@ void run_experiment(int argc, char **argv, uint32_t exp_type) {
             num_hosts -= 1;
         }
         for (uint32_t i = 0; i < num_hosts; i++) {
-            std::cout << "Host[" << i << "] ap:" << std::endl;
+            std::cout << "Host[" << i << "] admitted probability:" << std::endl;
             uint32_t num_samples = fairness_qos_h_admit_prob_per_host[i].size();
             for (uint32_t j = 0; j < num_samples - 1; j++) {
                 std::cout << fairness_qos_h_admit_prob_per_host[i][j] << ",";

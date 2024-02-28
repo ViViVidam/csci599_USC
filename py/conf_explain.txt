@@ -12,7 +12,7 @@ num_hosts: 33
 flow_trace: ./CDF_uniform_32K.txt
 cut_through: 0
 pfabric_priority_type: size
-mean_flow_size: 0
+mean_flow_size: 32000
 debug_event_info: 0
 enable_flow_lookup: 0
 flow_lookup_id: 1
@@ -21,11 +21,11 @@ dp_alpha: 0.01
 dp_beta: 0.01
 channel_multiplexing: 1
 multiplex_constant: 1
-use_burst_byte: 0
+use_burst_byte: 10
 burst_with_no_spacing: 0
 load_measure_interval: 10
 smart_time_window: 1
-target_pctl: 1000
+target_pctl: 99.9
 hardcoded_targets: 15,25
 mtu: 5120
 normalized_lat: 0
@@ -36,7 +36,7 @@ disable_pkt_logging: 1
 disable_cwnd_logging: 1
 disable_dwnd_logging: 1
 disable_poisson_arrival: 0
-test_fairness: 1
+test_fairness: to output admit prob per host
 load: 0.8
 use_dynamic_load: 1
 burst_load: 1.4
@@ -46,4 +46,4 @@ bytes_mode: 1
 burst_at_beginning: 0
 cc_delay_target: 10
 qos_weights: 8,4,1
-qos_ratio: 80,40,10
+qos_ratio: how many traffic are issued in such class accordingly
