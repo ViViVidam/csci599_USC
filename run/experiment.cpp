@@ -479,6 +479,7 @@ void run_experiment(int argc, char **argv, uint32_t exp_type) {
     uint32_t flow_cnt = 0;
     uint32_t flow_percentile = 0;
     uint32_t num_QoS_H_RPCs_missed_target = 0;
+    uint32_t total_num_H_RPCs = 0;
     double total_flow_completion_time = 0;
     for (int i = 0; i < num_pctl; i++) {
         flows_by_prio_percentile[i].resize(params.weights.size());
@@ -498,6 +499,9 @@ void run_experiment(int argc, char **argv, uint32_t exp_type) {
             //if (f->flow_priority == 0 && f->run_priority == 0 && f->flow_completion_time * 1e6 > params.high_prio_lat_target) {
             if (f->flow_priority == 0 && f->run_priority == 0 && f->flow_completion_time * 1e6 > params.hardcoded_targets[0]) {
                 num_QoS_H_RPCs_missed_target++;
+            }
+            if (f->flow_priority == 0){
+                total_num_H_RPCs++;
             }
         }
         flows_by_init_prio[f->flow_priority].push_back(f);
@@ -1509,6 +1513,7 @@ void run_experiment(int argc, char **argv, uint32_t exp_type) {
     }
 
     std::cout << "Number of QoS_H RPCs that missed the target: " << num_QoS_H_RPCs_missed_target << " / " << num_bad_QoS_H_RPCs << std::endl;
+    std::cout << "Number of Total QoS_H RPCs: " << total_num_H_RPCs << std::endl;
     if (params.priority_downgrade) {
 
         // admit prob
