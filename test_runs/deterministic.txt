@@ -1,0 +1,100 @@
+PUPU: config filename: conf_temp.txt
+Downgrade Hardcoded Targets: 15 25 
+num pctl for qos dist breakdown = 10
+QoS weights: 8 4 1 
+Sum weights = 13
+Fair Share Ratio = 0.615384615384615 : 0.307692307692308 : 0.0769230769230769
+QoS ratio: 0.6 0.3 0.1 
+Use dynamic load.
+Avg load to achieve = 0.8
+burst size (# of RPCs) in the dynamic load setting: 4
+Using Channel Multiplexing. Multiplexing Constant = 1
+burst load = 1.4
+CDF: ./CDF_uniform_32K.txt
+Per port queue size: 524288 Bytes
+Enable Poisson Arrival; don't use initial shift
+Disable Packet Logging (to save memory)
+Disable CWND Logging (to save memory)
+Disable DWND Logging (to save memory)
+Enable smart time window. Adjust per qos window time duration based on target X 1000
+Disable Priority Downgrade.
+Host type: 1
+Queue type: 6
+Flow type: 6
+Init cwnd: 2
+Max cwnd: 30
+Num Hosts: 33
+Num total RPCs to run: 5000000
+traffic pattern: all-to-all
+mtu: 5120
+mss: 5080
+Swift Delay target: 10 us
+Retransmission Timeout: 450 us
+num_hosts = 33
+params.cdf_or_flow_trace: ./CDF_uniform_32K.txt
+Mean flow size: 32768
+## 1.009936803169331 NumPktOutstd 20 MaxPktOutstd 8462 PktDropsSoFar 0 NumUnfFlows 213 StartedFlows 100000 NumRPCsOutstd 214 StartedPkts 700000
+## 1.019918958901842 NumPktOutstd 6 MaxPktOutstd 8462 PktDropsSoFar 0 NumUnfFlows 196 StartedFlows 200000 NumRPCsOutstd 197 StartedPkts 1400000
+## 1.029928903883663 NumPktOutstd 12 MaxPktOutstd 8462 PktDropsSoFar 0 NumUnfFlows 168 StartedFlows 300000 NumRPCsOutstd 169 StartedPkts 2100000
+## 1.039949964676925 NumPktOutstd 9 MaxPktOutstd 8462 PktDropsSoFar 0 NumUnfFlows 166 StartedFlows 400000 NumRPCsOutstd 167 StartedPkts 2800000
+## 1.049974923533922 NumPktOutstd 32 MaxPktOutstd 8462 PktDropsSoFar 0 NumUnfFlows 197 StartedFlows 500000 NumRPCsOutstd 198 StartedPkts 3500000
+## 1.059998236450320 NumPktOutstd 30 MaxPktOutstd 8462 PktDropsSoFar 0 NumUnfFlows 142 StartedFlows 600000 NumRPCsOutstd 143 StartedPkts 4200000
+## 1.069984164455749 NumPktOutstd 19 MaxPktOutstd 8462 PktDropsSoFar 0 NumUnfFlows 214 StartedFlows 700000 NumRPCsOutstd 215 StartedPkts 4900000
+## 1.080025328658752 NumPktOutstd 12 MaxPktOutstd 8462 PktDropsSoFar 0 NumUnfFlows 164 StartedFlows 800000 NumRPCsOutstd 165 StartedPkts 5600000
+## 1.090069615006089 NumPktOutstd 6 MaxPktOutstd 8462 PktDropsSoFar 0 NumUnfFlows 168 StartedFlows 900000 NumRPCsOutstd 169 StartedPkts 6300000
+## 1.100116622011679 NumPktOutstd 16 MaxPktOutstd 8462 PktDropsSoFar 0 NumUnfFlows 194 StartedFlows 1000000 NumRPCsOutstd 195 StartedPkts 7000000
+## 1.110176246230401 NumPktOutstd 10 MaxPktOutstd 8462 PktDropsSoFar 0 NumUnfFlows 164 StartedFlows 1100000 NumRPCsOutstd 165 StartedPkts 7700000
+## 1.120248441118423 NumPktOutstd 13 MaxPktOutstd 8462 PktDropsSoFar 0 NumUnfFlows 208 StartedFlows 1200000 NumRPCsOutstd 209 StartedPkts 8400000
+## 1.130272812343738 NumPktOutstd 45 MaxPktOutstd 8462 PktDropsSoFar 0 NumUnfFlows 172 StartedFlows 1300000 NumRPCsOutstd 173 StartedPkts 9100000
+## 1.140325918067977 NumPktOutstd 12 MaxPktOutstd 8462 PktDropsSoFar 0 NumUnfFlows 180 StartedFlows 1400000 NumRPCsOutstd 181 StartedPkts 9800000
+## 1.150423992212474 NumPktOutstd 37 MaxPktOutstd 8462 PktDropsSoFar 0 NumUnfFlows 224 StartedFlows 1500000 NumRPCsOutstd 225 StartedPkts 10500000
+## 1.160454631673507 NumPktOutstd 6 MaxPktOutstd 8462 PktDropsSoFar 0 NumUnfFlows 170 StartedFlows 1600000 NumRPCsOutstd 171 StartedPkts 11200000
+## 1.170477883418670 NumPktOutstd 6 MaxPktOutstd 8462 PktDropsSoFar 0 NumUnfFlows 180 StartedFlows 1700000 NumRPCsOutstd 181 StartedPkts 11900000
+## 1.180519870376528 NumPktOutstd 15 MaxPktOutstd 8462 PktDropsSoFar 0 NumUnfFlows 248 StartedFlows 1800000 NumRPCsOutstd 249 StartedPkts 12600000
+## 1.190563463125975 NumPktOutstd 6 MaxPktOutstd 8462 PktDropsSoFar 0 NumUnfFlows 190 StartedFlows 1900000 NumRPCsOutstd 191 StartedPkts 13300000
+## 1.200541361286553 NumPktOutstd 63 MaxPktOutstd 8462 PktDropsSoFar 0 NumUnfFlows 186 StartedFlows 2000000 NumRPCsOutstd 187 StartedPkts 14000000
+## 1.210572464843328 NumPktOutstd 6 MaxPktOutstd 8462 PktDropsSoFar 0 NumUnfFlows 187 StartedFlows 2100000 NumRPCsOutstd 188 StartedPkts 14700000
+## 1.220684038156649 NumPktOutstd 20 MaxPktOutstd 8462 PktDropsSoFar 0 NumUnfFlows 209 StartedFlows 2200000 NumRPCsOutstd 210 StartedPkts 15400000
+## 1.230673012883168 NumPktOutstd 16 MaxPktOutstd 8462 PktDropsSoFar 0 NumUnfFlows 135 StartedFlows 2300000 NumRPCsOutstd 136 StartedPkts 16100000
+## 1.240669226192076 NumPktOutstd 12 MaxPktOutstd 8462 PktDropsSoFar 0 NumUnfFlows 222 StartedFlows 2400000 NumRPCsOutstd 223 StartedPkts 16800000
+## 1.250709254198448 NumPktOutstd 13 MaxPktOutstd 8462 PktDropsSoFar 0 NumUnfFlows 184 StartedFlows 2500000 NumRPCsOutstd 185 StartedPkts 17500000
+## 1.260743834186624 NumPktOutstd 19 MaxPktOutstd 8462 PktDropsSoFar 0 NumUnfFlows 151 StartedFlows 2600000 NumRPCsOutstd 152 StartedPkts 18200000
+## 1.270759206841183 NumPktOutstd 21 MaxPktOutstd 8462 PktDropsSoFar 0 NumUnfFlows 167 StartedFlows 2700000 NumRPCsOutstd 168 StartedPkts 18900000
+## 1.280780578688874 NumPktOutstd 38 MaxPktOutstd 8462 PktDropsSoFar 0 NumUnfFlows 192 StartedFlows 2800000 NumRPCsOutstd 193 StartedPkts 19600000
+## 1.290766240500670 NumPktOutstd 17 MaxPktOutstd 8462 PktDropsSoFar 0 NumUnfFlows 190 StartedFlows 2900000 NumRPCsOutstd 191 StartedPkts 20300000
+## 1.300771805710064 NumPktOutstd 13 MaxPktOutstd 8462 PktDropsSoFar 0 NumUnfFlows 134 StartedFlows 3000000 NumRPCsOutstd 135 StartedPkts 21000000
+## 1.310779753810528 NumPktOutstd 13 MaxPktOutstd 8462 PktDropsSoFar 0 NumUnfFlows 173 StartedFlows 3100000 NumRPCsOutstd 174 StartedPkts 21700000
+## 1.320829868413221 NumPktOutstd 6 MaxPktOutstd 8462 PktDropsSoFar 0 NumUnfFlows 152 StartedFlows 3200000 NumRPCsOutstd 153 StartedPkts 22400000
+## 1.330878893502991 NumPktOutstd 37 MaxPktOutstd 8462 PktDropsSoFar 0 NumUnfFlows 240 StartedFlows 3300000 NumRPCsOutstd 241 StartedPkts 23100000
+## 1.340926031807307 NumPktOutstd 32 MaxPktOutstd 8462 PktDropsSoFar 0 NumUnfFlows 183 StartedFlows 3400000 NumRPCsOutstd 184 StartedPkts 23800000
+## 1.350940012642237 NumPktOutstd 6 MaxPktOutstd 8462 PktDropsSoFar 0 NumUnfFlows 143 StartedFlows 3500000 NumRPCsOutstd 144 StartedPkts 24500000
+## 1.360901979252246 NumPktOutstd 24 MaxPktOutstd 8462 PktDropsSoFar 0 NumUnfFlows 221 StartedFlows 3600000 NumRPCsOutstd 222 StartedPkts 25200000
+## 1.370884273177002 NumPktOutstd 47 MaxPktOutstd 8462 PktDropsSoFar 0 NumUnfFlows 164 StartedFlows 3700000 NumRPCsOutstd 165 StartedPkts 25900000
+## 1.380842635455598 NumPktOutstd 122 MaxPktOutstd 8462 PktDropsSoFar 0 NumUnfFlows 242 StartedFlows 3800000 NumRPCsOutstd 243 StartedPkts 26600000
+## 1.390822759410265 NumPktOutstd 17 MaxPktOutstd 8462 PktDropsSoFar 0 NumUnfFlows 167 StartedFlows 3900000 NumRPCsOutstd 168 StartedPkts 27300000
+## 1.400822509385967 NumPktOutstd 61 MaxPktOutstd 8462 PktDropsSoFar 0 NumUnfFlows 159 StartedFlows 4000000 NumRPCsOutstd 160 StartedPkts 28000000
+## 1.410804898805844 NumPktOutstd 61 MaxPktOutstd 8462 PktDropsSoFar 0 NumUnfFlows 229 StartedFlows 4100000 NumRPCsOutstd 230 StartedPkts 28700000
+## 1.420821342129948 NumPktOutstd 22 MaxPktOutstd 8462 PktDropsSoFar 0 NumUnfFlows 175 StartedFlows 4200000 NumRPCsOutstd 176 StartedPkts 29400000
+## 1.430833376612608 NumPktOutstd 12 MaxPktOutstd 8462 PktDropsSoFar 0 NumUnfFlows 185 StartedFlows 4300000 NumRPCsOutstd 186 StartedPkts 30100000
+## 1.440843251177289 NumPktOutstd 51 MaxPktOutstd 8462 PktDropsSoFar 0 NumUnfFlows 193 StartedFlows 4400000 NumRPCsOutstd 194 StartedPkts 30800000
+## 1.450846635589921 NumPktOutstd 9 MaxPktOutstd 8462 PktDropsSoFar 0 NumUnfFlows 228 StartedFlows 4500000 NumRPCsOutstd 229 StartedPkts 31500000
+## 1.460798902843728 NumPktOutstd 21 MaxPktOutstd 8462 PktDropsSoFar 0 NumUnfFlows 196 StartedFlows 4600000 NumRPCsOutstd 197 StartedPkts 32200000
+## 1.470816227639152 NumPktOutstd 6 MaxPktOutstd 8462 PktDropsSoFar 0 NumUnfFlows 219 StartedFlows 4700000 NumRPCsOutstd 220 StartedPkts 32900000
+## 1.480879266540867 NumPktOutstd 8 MaxPktOutstd 8462 PktDropsSoFar 0 NumUnfFlows 191 StartedFlows 4800000 NumRPCsOutstd 192 StartedPkts 33600000
+## 1.490856931853616 NumPktOutstd 31 MaxPktOutstd 8462 PktDropsSoFar 0 NumUnfFlows 197 StartedFlows 4900000 NumRPCsOutstd 198 StartedPkts 34300000
+## 1.500858626887789 NumPktOutstd 23 MaxPktOutstd 8462 PktDropsSoFar 0 NumUnfFlows 206 StartedFlows 5000000 NumRPCsOutstd 207 StartedPkts 35000000
+ Pure simulation execution time: 153.000000000000000 seconds
+ Events/sec: 2459539.274509803857654
+ Data Pkts/sec: 228758.209150326787494
+Unfinished Flows: 0
+Finished Flows: 5000000
+Priority 0: (5000000 Flows, Finished/Unf: 5000000/0) (Assigned: 5000000, Finished/Unf: 5000000/0)
+FCT (in us) (mid 80% RPCs) (Median, 70th, 80th, 90th, 99th, 99.9th, max) = 14.21, 20.08, 24.97, 34.40, 85.91, 145.97, 477.53
+FCT (in us) (last 50% RPCs) (Median, 99th, 99.9th, max) = 14.28, 87.03, 148.38, 477.53
+Priority 1: (0 Flow)
+Priority 2: (0 Flow)
+Priority[0] throughput = 79.97 Gbps
+Priority[1] throughput = nan Gbps
+Priority[2] throughput = nan Gbps
+Final QoS Dist: 100.0/0.0/0.0
+Percentile, QoS Dist trend, QoS_H dist, QoS_H RPC 99.9th(us), QoS_M RPC 99.9th(us), end pctl timestamp(s):

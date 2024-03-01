@@ -1,0 +1,35 @@
+PUPU: config filename: conf_temp.txt
+Downgrade Hardcoded Targets: 15 25 
+num pctl for qos dist breakdown = 10
+QoS weights: 8 4 1 
+Sum weights = 13
+Fair Share Ratio = 0.615384615384615 : 0.307692307692308 : 0.0769230769230769
+QoS ratio: 0.6 0.3 0.1 
+Use dynamic load.
+Avg load to achieve = 0.8
+burst size (# of RPCs) in the dynamic load setting: 4
+Using Channel Multiplexing. Multiplexing Constant = 1
+burst load = 1.4
+CDF: ./CDF_uniform_32K.txt
+Per port queue size: 524288 Bytes
+Enable Poisson Arrival; don't use initial shift
+Disable Packet Logging (to save memory)
+Disable CWND Logging (to save memory)
+Disable DWND Logging (to save memory)
+Enable smart time window. Adjust per qos window time duration based on target X 1000
+Disable Priority Downgrade.
+Host type: 1
+Queue type: 6
+Flow type: 6
+Init cwnd: 2
+Max cwnd: 30
+Num Hosts: 33
+Num total RPCs to run: 5000000
+traffic pattern: all-to-all
+mtu: 5120
+mss: 5080
+Swift Delay target: 10 us
+Retransmission Timeout: 450 us
+num_hosts = 33
+params.cdf_or_flow_trace: ./CDF_uniform_32K.txt
+Mean flow size: 32768
