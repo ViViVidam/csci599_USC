@@ -36,7 +36,7 @@ disable_pkt_logging: 1
 disable_cwnd_logging: 1
 disable_dwnd_logging: 1
 disable_poisson_arrival: 0
-test_fairness: 1
+test_fairness: 0
 load: 0.8
 use_dynamic_load: 1
 burst_load: 1.4
@@ -46,4 +46,4 @@ bytes_mode: 1
 burst_at_beginning: 0
 cc_delay_target: 10
 qos_weights: 8,4,1
-qos_ratio: 80,40,10
+qos_ratio: 60,30,10
