@@ -503,7 +503,7 @@ void run_experiment(int argc, char **argv, uint32_t exp_type) {
             }
             if (f->flow_priority == 0){
                 total_num_H_RPCs++;
-                if(f->run_priorit == 0){
+                if(f->run_priority == 0){
                     total_num_HRPCs_runned++;
                 }
             }
