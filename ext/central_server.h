@@ -54,7 +54,7 @@ class CentralServer:public Node{
       std::uint32_t num_core_switches,
       std::double bandwidth,
       std::uint32_t queue_type,
-      std::vector<uint32_t> SLO_values);
+      std::vector<double> SLO_values);
       std::map<pair<uint32_t, uint32_t>, PerNodeDetails> per_node_info; 
 
     
