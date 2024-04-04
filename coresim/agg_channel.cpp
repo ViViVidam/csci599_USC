@@ -78,7 +78,7 @@ void AggChannel::process_latency_signal(double fct_in, uint32_t flow_id, int flo
         }
     }
     num_rpcs_in_memory++;
-    centralServer->send_info_to_node(flow_id,this->priority,fct_in,this->src->id,this->dst->id);
+    centralServer->send_info_to_central_node(flow_id,this->priority,fct_in,this->src->id,this->dst->id);
     // Idea2: count by time
     /*
     double current_memory_time = get_current_time();
