@@ -21,9 +21,7 @@ CentralServer::CentralServer(
     uint32_t queue_type,
     std::vector<uint32_t> SLO_values
     ): Node(id, type) {
-
       // empty constructor
-
 }
 
 std::vector<uint32_t> CentralServer::receive_info_from_node(uint32_t node_id) {

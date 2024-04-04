@@ -64,7 +64,7 @@ AggChannel::~AggChannel() {
         delete x;
     }
 }
-
+//flow completion tome
 void AggChannel::process_latency_signal(double fct_in, uint32_t flow_id, int flow_size) {
     if (params.normalized_lat) {
         fct_in = fct_in / flow_size;

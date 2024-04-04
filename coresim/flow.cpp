@@ -13,13 +13,15 @@
 #include "packet.h"
 #include "../ext/factory.h"
 #include "../run/params.h"
-
+#include "../ext/central_server.h"
+class CentralServer;
 extern double get_current_time();
 extern void add_to_event_queue(Event *);
 extern DCExpParams params;
 extern uint32_t num_outstanding_packets;
 extern uint32_t max_outstanding_packets;
 extern uint32_t duplicated_packets_received;
+
 extern std::vector<std::map<std::pair<uint32_t, uint32_t>, AggChannel *>> channels;
 extern std::vector<std::vector<double>> per_pkt_lat;
 extern std::vector<std::vector<double>> per_pkt_rtt;
@@ -39,6 +41,7 @@ extern std::vector<uint32_t> fairness_qos_h_bytes_per_host;
 extern uint32_t num_outstanding_rpcs;
 
 extern std::map<std::pair<uint32_t, uint32_t>, uint32_t> flip_coin;
+extern CentralServer* centralServer;
 
 Flow::Flow(uint32_t id, double start_time, uint32_t size, Host *s, Host *d) {
     this->id = id;
@@ -127,22 +130,21 @@ void Flow::start_flow() {
             per_host_QoS_H_rpcs[src->id]++;
         }
         if (flow_priority < 2) {
-            //double admit_prob = agchannel->get_admit_prob();
-            double admit_prob = agg_channel->admit_prob;
-            if ((double)rand() / (RAND_MAX) > admit_prob) {
-                run_priority = params.weights.size() - 1;
-                num_downgrades++;
-                num_downgrades_per_host[src->id]++;
-                if (flow_priority == 0) {
-                    per_host_QoS_H_downgrades[src->id]++;
-                    num_qos_h_downgrades[1]++;
-                    per_pctl_downgrades[0]++;
-                } else {
-                    num_qos_m_downgrades++;
-                    per_pctl_downgrades[1]++;
-                }
-            }
-
+//            double admit_prob = agg_channel->admit_prob;
+//            if ((double)rand() / (RAND_MAX) > admit_prob) {
+//                run_priority = params.weights.size() - 1;
+//                num_downgrades++;
+//                num_downgrades_per_host[src->id]++;
+//                if (flow_priority == 0) {
+//                    per_host_QoS_H_downgrades[src->id]++;
+//                    num_qos_h_downgrades[1]++;
+//                    per_pctl_downgrades[0]++;
+//                } else {
+//                    num_qos_m_downgrades++;
+//                    per_pctl_downgrades[1]++;
+//                }
+//            }
+            centralServer
         }
 
         // Now if gets downgraded, delete the old one-shot channel and creates a new one
@@ -153,7 +155,7 @@ void Flow::start_flow() {
             channel = new Channel(id, src, dst, run_priority, agg_channel);
         }
         */
-
+        bool is_downgrade = centralServer->receive_info_from_node();
     }
 
     agg_channel = channels[run_priority][std::make_pair(src->id, dst->id)];
