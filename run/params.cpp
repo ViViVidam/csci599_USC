@@ -7,21 +7,19 @@
 #include <string>
 #include "../ext/factory.h"
 
-
-// Data center experiment parameters
 DCExpParams params;
 
-/*it  Read parameters from a config file */
+/* Read parameters from a config file */
 void read_experiment_parameters(std::string conf_filename, uint32_t exp_type) {
     std::cout << "PUPU: config filename: " << conf_filename << std::endl;
     std::ifstream input(conf_filename);
     std::string line;
     std::string key;
     params.interarrival_cdf = "none";
-    params.permutation_tm = 0; // permutation time ?
-    params.hdr_size = 40; // header packet size ?
+    params.permutation_tm = 0;
+    params.hdr_size = 40;
     params.num_hosts = 144;
-    params.num_agg_switches = 9; // number of aggregation switches
+    params.num_agg_switches = 9;
     params.num_core_switches = 4;
     params.weights = std::vector<int>();
     params.targets = std::vector<double>();
@@ -170,9 +168,9 @@ void read_experiment_parameters(std::string conf_filename, uint32_t exp_type) {
         else if (key == "use_random_jitter") {
             lineStream >> params.use_random_jitter;
         }
-        //else if (key == "random_flow_start") {
-        //    lineStream >> params.random_flow_start;
-        //}
+            //else if (key == "random_flow_start") {
+            //    lineStream >> params.random_flow_start;
+            //}
         else if (key == "early_pkt_in_highest_prio") {
             lineStream >> params.early_pkt_in_highest_prio;
         }
@@ -242,9 +240,9 @@ void read_experiment_parameters(std::string conf_filename, uint32_t exp_type) {
         else if (key == "expiration_count") {
             lineStream >> params.expiration_count;
         }
-        //else if (key == "load_change_freq") {
-        //    lineStream >> params.load_change_freq;
-        //}
+            //else if (key == "load_change_freq") {
+            //    lineStream >> params.load_change_freq;
+            //}
         else if (key == "burst_size") {
             lineStream >> params.burst_size;
         }
@@ -305,9 +303,9 @@ void read_experiment_parameters(std::string conf_filename, uint32_t exp_type) {
         else if (key == "nic_use_WF") {
             lineStream >> params.nic_use_WF;
         }
-        //else if (key == "enable_initial_shift") {
-        //    lineStream >> params.enable_initial_shift;
-        //}
+            //else if (key == "enable_initial_shift") {
+            //    lineStream >> params.enable_initial_shift;
+            //}
         else if (key == "priority_downgrade") {
             lineStream >> params.priority_downgrade;
         }
@@ -423,11 +421,11 @@ void read_experiment_parameters(std::string conf_filename, uint32_t exp_type) {
         else if (key == "homa_rttbytes_in_mss") {
             lineStream >> params.homa_rttbytes_in_mss;
         }
-        //else if (key == "dctcp_delayed_ack_freq") {
-        //    lineStream >> params.dctcp_delayed_ack_freq;
-        //}
-        //// weights format in config file: for example, for 3 qos levels with weights 8:2:1, write:
-        //// qos_weights: 8,2,1
+            //else if (key == "dctcp_delayed_ack_freq") {
+            //    lineStream >> params.dctcp_delayed_ack_freq;
+            //}
+            //// weights format in config file: for example, for 3 qos levels with weights 8:2:1, write:
+            //// qos_weights: 8,2,1
         else if (key == "qos_weights") {
             std::string temp_str;
             lineStream >> temp_str;
@@ -456,10 +454,10 @@ void read_experiment_parameters(std::string conf_filename, uint32_t exp_type) {
                 }
             }
         }
-        //// qos_ratio: [30,70] means 30% of the flow gets first priority, 70% of the flows gets 2nd priority
-        //// (in this case you can also write [3,7] as long as the ratio is what you want)
-        //// number of entries should match that of qos_weights
-        //// TODO: make it ratio in terms of bytes not number of flows
+            //// qos_ratio: [30,70] means 30% of the flow gets first priority, 70% of the flows gets 2nd priority
+            //// (in this case you can also write [3,7] as long as the ratio is what you want)
+            //// number of entries should match that of qos_weights
+            //// TODO: make it ratio in terms of bytes not number of flows
         else if (key == "qos_ratio") {
             std::string temp_str;
             lineStream >> temp_str;
@@ -484,7 +482,7 @@ void read_experiment_parameters(std::string conf_filename, uint32_t exp_type) {
             }
             std::cout << std::endl;
         }
-        // Vector for buffer carving: [1, 2, 3] means 1/6th space for prio_1, 2/6th space for prio_2, the rest for prio_3. 
+            // Vector for buffer carving: [1, 2, 3] means 1/6th space for prio_1, 2/6th space for prio_2, the rest for prio_3.
         else if (key == "buffer_carving") {
             std::string temp_str;
             lineStream >> temp_str;
@@ -548,16 +546,16 @@ void read_experiment_parameters(std::string conf_filename, uint32_t exp_type) {
         else if (key == "early_termination") {
             lineStream >> params.early_termination;
         }
-        //else if (key == "dynamic_load") {
-        //    std::string temp_str;
-        //    lineStream >> temp_str;
-        //    std::stringstream ss(temp_str);
-        //    while (ss.good()) {
-        //        std::string load_val;
-        //        getline(ss, load_val, ',');
-        //        params.dynamic_load.push_back(stod(load_val));
-        //    }
-        //}
+            //else if (key == "dynamic_load") {
+            //    std::string temp_str;
+            //    lineStream >> temp_str;
+            //    std::stringstream ss(temp_str);
+            //    while (ss.good()) {
+            //        std::string load_val;
+            //        getline(ss, load_val, ',');
+            //        params.dynamic_load.push_back(stod(load_val));
+            //    }
+            //}
         else if (key == "pfabric_priority_type") {
             lineStream >> params.pfabric_priority_type;
         }

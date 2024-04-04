@@ -5,7 +5,6 @@
 #include <vector>
 #include <queue>
 #include <map>
-#include "node.h"
 class AggChannel;
 class Topology;
 class Flow;
@@ -27,13 +26,13 @@ struct PerSrcDestDetails{
 
 };
 
-class CentralServer:public Node {
+class CentralServer{
 protected:
     std::vector<double> SLO_values; // per QOS class SLO latency
     std::map <uint32_t, std::queue<int>> receive_queue; // per node a queue is maintained in the central server
     std::map <uint32_t, std::queue<int>> send_queue; // per node the failure status is maintained
     std::vector<std::map<std::pair<uint32_t, uint32_t>, AggChannel *>> channels;
-    uint32_t count_channel;
+    uint32_t count_channel = 0;
     double increment_window;
     double dp_alpha, dp_beta;
 public:
