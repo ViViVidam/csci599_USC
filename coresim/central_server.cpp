@@ -10,6 +10,7 @@
 #include "../ext/factory.h"
 
 
+<<<<<<< HEAD
 CentralServer::CentralServer(uint32_t id, int type, uint32_t num_hosts, uint32_t num_agg_switches, uint32_t num_core_switches,
         double bandwidth, uint32_t queue_type, std::vector <double> SLO_values): Node(id, type) {
     for (uint32_t i = 0; i < params.weights.size(); i++) {
@@ -42,17 +43,17 @@ bool CentralServer::send_info_to_central(uint32_t flow_id,int priority, double q
 
 void CentralServer::process(uint32_t src_id,uint32_t dst_id, int qos_class,double qos_latency, double time) {
     // Implement the logic to process the info received from the nodes
-    if(this->per_node_info[{src_id, dst_id}]){
+    if(this->per_node_info.count({src_id, dst_id}) > 0){
       // check if the info is present
       //update the values for alpha and beta per each class
       
       if(qos_class == 1){
         if(qos_latency < this->SLO_values[0]){
-          if(time - last> this->increment_window){
+          if(time - this->increment_window){
             double admit_prob_h = this->per_node_info[{src_id, dst_id}].admit_prob_H;
-            admit_prob_h = std::min(admit_prob_h+dp_alpha, 1.0);
+            admit_prob_h = std::min(admit_prob_h+this->dp_alpha, 1.0);
             this->per_node_info[{src_id, dst_id}].admit_prob_H = admit_prob_h;
-            this->last = time;
+            this->per_node_info[{src_id, dst_id}].last = time;
           }
         }else{
             double admit_prob_h = this->per_node_info[{src_id, dst_id}].admit_prob_H;
@@ -60,12 +61,12 @@ void CentralServer::process(uint32_t src_id,uint32_t dst_id, int qos_class,doubl
         }
       }
       else if(qos_class == 2){
-        if(qos_latency < this->SLO[1]){
-          if(time - last> this->increment_window){
+        if(qos_latency < this->SLO_values[1]){
+          if(time - this->per_node_info[{src_id, dst_id}].last> this->increment_window){
             double admit_prob_m = this->per_node_info[{src_id, dst_id}].admit_prob_M;
             admit_prob_m = std::min(admit_prob_m+dp_alpha, 1.0);
             this->per_node_info[{src_id, dst_id}].admit_prob_M = admit_prob_m;
-            last = time;
+            this->per_node_info[{src_id, dst_id}].last = time;
           }
         }else{
             double admit_prob_m = this->per_node_info[{src_id, dst_id}].admit_prob_M;
@@ -78,7 +79,7 @@ void CentralServer::process(uint32_t src_id,uint32_t dst_id, int qos_class,doubl
     }
 }
 
-bool CentralServer::receive_info_from_node(uint32_t src_id, uint32_t dst_id, int qos_class) {
+bool CentralServer::receive_info_from_central_node(uint32_t src_id, uint32_t dst_id, int qos_class) {
     // Implement the logic to process the info received from the nodes
     double val = (double)rand() / (RAND_MAX);
 

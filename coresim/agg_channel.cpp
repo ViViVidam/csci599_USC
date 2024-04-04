@@ -76,7 +76,6 @@ void AggChannel::process_latency_signal(double fct_in, uint32_t flow_id, int flo
         }
     }
     num_rpcs_in_memory++;
-
     // Idea2: count by time
 
     double current_memory_time = get_current_time();
