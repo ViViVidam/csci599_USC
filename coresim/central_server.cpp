@@ -43,21 +43,21 @@ void CentralServer::process(uint32_t src_id,uint32_t dst_id, int qos_class,doubl
       
       if(qos_class == 1){
         if(qos_latency < this->SLO_values[0]){
-          if(time - last> this.increment_window){
-            double admit_prob_h = this.per_node_info[{src_id, dst_id}].admit_prob_H;
+          if(time - last> this->increment_window){
+            double admit_prob_h = this->per_node_info[{src_id, dst_id}].admit_prob_H;
             admit_prob_h = std::min(admit_prob_h+dp_alpha, 1.0);
             this->per_node_info[{src_id, dst_id}].admit_prob_H = admit_prob_h;
-            this.last = time;
+            this->last = time;
           }
         }else{
-            double admit_prob_h = this.per_node_info[{src_id, dst_id}].admit_prob_H;
+            double admit_prob_h = this->per_node_info[{src_id, dst_id}].admit_prob_H;
             admit_prob_h = std::max(admit_prob_h-dp_beta, 0.1);
         }
       }
       else if(qos_class == 2){
         if(qos_latency < this->SLO[1]){
           if(time - last> this->increment_window){
-            double admit_prob_m = this.per_node_info[{src_id, dst_id}].admit_prob_M;
+            double admit_prob_m = this->per_node_info[{src_id, dst_id}].admit_prob_M;
             admit_prob_m = std::min(admit_prob_m+dp_alpha, 1.0);
             this->per_node_info[{src_id, dst_id}].admit_prob_M = admit_prob_m;
             last = time;
