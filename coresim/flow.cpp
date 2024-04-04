@@ -153,7 +153,7 @@ void Flow::start_flow() {
             channel = new Channel(id, src, dst, run_priority, agg_channel);
         }
         */
-        bool is_downgrade = centralServer->receive_info_from_node(src->id, dst->id, run_priority);
+        bool is_downgrade = centralServer->receive_info_from_central_node(src->id, dst->id, run_priority);
         if (is_downgrade) {
             run_priority = params.weights.size() - 1;
             num_downgrades++;

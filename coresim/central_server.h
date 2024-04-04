@@ -6,8 +6,8 @@
 #include <queue>
 #include <map>
 #include "node.h"
-#include "agg_channel.h"
-
+class AggChannel;
+class Topology;
 class Flow;
 /* this class might inherit host as well depending on the requirement*/
 
@@ -42,14 +42,8 @@ public:
       like hosts, switches, queues, bandwidth etc
     */
 
-    CentralServer(uint32_t id, int type,
-            uint32_t num_hosts,
-            uint32_t num_agg_switches,
-            uint32_t num_core_switches,
-            double bandwidth,
-            uint32_t queue_type,
-            // 0 - high latency, 1 - medium latency, 2 - low latency
-            std::vector <double> slo_val);
+    CentralServer(uint32_t id, int type, uint32_t num_hosts, uint32_t num_agg_switches, uint32_t num_core_switches,
+                  double bandwidth, uint32_t queue_type, std::vector <double> SLO_values, Topology* topology);
 
     std::map <std::pair<uint32_t, uint32_t>, PerSrcDestDetails> per_node_info;
 
