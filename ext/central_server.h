@@ -25,6 +25,10 @@ std::Struct PerSrcDestDetails{
   std:: double admit_prob_M;
   std:: double admit_prob_L;
 
+  std::uint32_t num_downgrades = 0 ;
+  std:: Time last
+  std:: double incremen_window;
+
 };
 
 class CentralServer:public Node{
@@ -48,18 +52,19 @@ class CentralServer:public Node{
 
     CentralServer(
       std::uint32_t id,
-      std::uint32_t type
+      std::uint32_t type,
       std::uint32_t num_hosts,
       std::uint32_t num_agg_switches,
       std::uint32_t num_core_switches,
       std::double bandwidth,
       std::uint32_t queue_type,
-      std::vector<double> SLO_values);
+      // 0 - high latency, 1 - medium latency, 2 - low latency
+      std::vector<uint32_t> SLO_values);
       std::map<pair<uint32_t, uint32_t>, PerNodeDetails> per_node_info; 
 
     
     std::bool receive_info_from_node(uint32_t node_id);
-    std::void send_info_to_node(uint32_t node_id, string, qos_class, double qos_latency);
+    std::void send_info_to_node(uint32_t node_id, string, qos_class, double qos_latency,double time);
     std::process();
 
 };

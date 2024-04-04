@@ -24,12 +24,7 @@ CentralServer::CentralServer(
       // empty constructor
 }
 
-std::vector<uint32_t> CentralServer::receive_info_from_node(uint32_t node_id) {
-    // Implement the logic to receive info from the node and populate 'info' vector
-    return info;
-}
-
-std::bool CentralServer::send_info_to_node(uint32_t node_id,string qos_class, double qos_latency, uint32_t src_id, uint32_t dst_id) {
+std::bool CentralServer::send_info_to_node(uint32_t node_id,int qos_class, double qos_latency, uint32_t src_id, uint32_t dst_id) {
     // Implement the logic to send info to the node
 
     if(qos_class == 'H')
@@ -39,26 +34,65 @@ std::bool CentralServer::send_info_to_node(uint32_t node_id,string qos_class, do
     else if(qos_class == 'L')
         this->per_node_info[{src_id, dst_id}].QOS_L_fct_curr = qos_latency;
     
-    this->process(src_id, dst_id, qos_class);
+    this->process(src_id, dst_id, qos_class, qos_latency, time);
     return;
 }
 
-std::void CentralServer::process(uint32_t src_id,uint32_t dst_id, string qos_class) {
+std::void CentralServer::process(uint32_t src_id,uint32_t dst_id, int qos_class,double qos_latency, double time) {
     // Implement the logic to process the info received from the nodes
     if(this->per_node_info[{src_id, dst_id}]){
       // check if the info is present
-      
       //update the values for alpha and beta per each class
-
-
+      
+      if(qos_class == 1){
+        if(qos_latency < this->SLO_values[0]){
+          if(time - last> this.increment_window){
+            double admit_prob_h = this.per_node_info[{src_id, dst_id}].admit_prob_H;
+            admit_prob_h = min(admit_prob_h+dp_alpha, 1.0);
+            this.per_node_info[{src_id, dst_id}].admit_prob_H = admit_prob_h;
+            last = time;
+          }
+        }else{
+            double admit_prob_h = this.per_node_info[{src_id, dst_id}].admit_prob_H;
+            admit_prob_h = max(admit_prob_h-dp_beta, 0.1);
+        }
+      }
+      else if(qos_class == 2){
+        if(qos_latency < this->SLO_values[1]){
+          if(time - last> this.increment_window){
+            double admit_prob_m = this.per_node_info[{src_id, dst_id}].admit_prob_M;
+            admit_prob_m = min(admit_prob_m+dp_alpha, 1.0);
+            this.per_node_info[{src_id, dst_id}].admit_prob_M = admit_prob_m;
+            last = time;
+          }
+        }else{
+            double admit_prob_m = this.per_node_info[{src_id, dst_id}].admit_prob_M;
+            admit_prob_m = max(admit_prob_m-dp_beta, 0.1);
+        }
+      }
     }else{
       // create a struct object and populate the values
+      
     }
 }
 
-std::bool CentralServer::process(uint32_t src_id, uint32_t dst_id, string qos_class) {
+std::bool CentralServer::receive_info_from_node(uint32_t src_id, uint32_t dst_id, int qos_class, double time) {
     // Implement the logic to process the info received from the nodes
-    double val = rand();
+    double val = (double)rand() / (RAND_MAX);
+
+    // if ((double)rand() / (RAND_MAX) > admit_prob) {
+    //             run_priority = params.weights.size() - 1;
+    //             num_downgrades++;
+    //             num_downgrades_per_host[src->id]++;
+    //             if (flow_priority == 0) {
+    //                 per_host_QoS_H_downgrades[src->id]++;
+    //                 num_qos_h_downgrades[1]++;
+    //                 per_pctl_downgrades[0]++;
+    //             } else {
+    //                 num_qos_m_downgrades++;
+    //                 per_pctl_downgrades[1]++;
+    //             }
+    //  }
     if(qos_class == 'H' && val <= this->per_node_info[{src_id, dst_id}].admit_prob_H){
         return true;
     }
@@ -72,6 +106,3 @@ std::bool CentralServer::process(uint32_t src_id, uint32_t dst_id, string qos_cl
         return false;
     }
 }
-
-// AequitasFlow::AequitasFlow(uint32_t id, double start_time, uint32_t size, Host *s, Host *d,
-//     uint32_t flow_priority) : Flow(id, start_time, size, s, d, flow_priority) {}
