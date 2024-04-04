@@ -14,7 +14,9 @@
 #include "queue.h"
 #include "topology.h"
 #include "../run/params.h"
+#include "central_server.h"
 
+extern CentralServer* centralServer;
 extern double get_current_time();
 extern void add_to_event_queue(Event *);
 extern DCExpParams params;
@@ -84,7 +86,8 @@ void Channel::update_fct(double fct_in, uint32_t flow_id, double update_time, in
     last_update_time = update_time;
 
     //window_insert(fct, flow_id, flow_size);
-    agg_channel->process_latency_signal(fct, flow_id, flow_size);
+    centralServer->send_info_to_central(flow_id,this->priority,fct_in,this->src->id,this->dst->id,flow_size);
+    //agg_channel->process_latency_signal(fct, flow_id, flow_size);
 }
 
 // Flow calls add_to_channel() at sending_pending_data(); Does the following:

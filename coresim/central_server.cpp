@@ -4,24 +4,27 @@
 #include <iostream>
 #include <assert.h>
 #include <string.h>
-
 #include "event.h"
 #include "queue.h"
 #include "../run/params.h"
+#include "../ext/factory.h"
 
 
-
-CentralServer::CentralServer(uint32_t id, int type,
-        uint32_t num_hosts,
-        uint32_t num_agg_switches,
-        uint32_t num_core_switches,
-        double bandwidth,
-        uint32_t queue_type,
-        std::vector <double> SLO_values): Node(id, type) {
+CentralServer::CentralServer(uint32_t id, int type, uint32_t num_hosts, uint32_t num_agg_switches, uint32_t num_core_switches,
+        double bandwidth, uint32_t queue_type, std::vector <double> SLO_values): Node(id, type) {
+    for (uint32_t i = 0; i < params.weights.size(); i++) {
+        for (uint32_t j = 0; j < params.num_hosts - 1; j++) {
+            auto src_dst_pair = std::make_pair(j, params.num_hosts - 1);
+            this->channels[i][src_dst_pair] = new AggChannel(count_channel, topology->hosts[j], topology->hosts[params.num_hosts - 1], i);
+            //std::cout << "creating channel[" << count_channel << "], src: " << topology->hosts[j]->id << ", dst: " << topology->hosts[params.num_hosts - 1]->id << ", prio: " << i  <<std::endl;
+            this->count_channel++;
+            // set agg_channel to NICs
+        }
+    }
     // empty constructor
 }
 
-bool CentralServer::send_info_to_node(uint32_t node_id,int qos_class, double qos_latency, uint32_t src_id, uint32_t dst_id) {
+bool CentralServer::send_info_to_central(uint32_t flow_id,int priority, double qos_latency, uint32_t src_id, uint32_t dst_id,int flow_size) {
     // Implement the logic to send info to the node
 
     if(qos_class == 'H')
@@ -30,8 +33,10 @@ bool CentralServer::send_info_to_node(uint32_t node_id,int qos_class, double qos
         this->per_node_info[{src_id, dst_id}].QOS_M_fct_curr = qos_latency;
     else if(qos_class == 'L')
         this->per_node_info[{src_id, dst_id}].QOS_L_fct_curr = qos_latency;
-    
-    this->process(src_id, dst_id, qos_class, qos_latency, time);
+
+    AggChannel* agg_channel = this->channels[qos_class][std::make_pair(src_id,dst_id)];
+    agg_channel->process_latency_signal(qos_latency,flow_id,flow_size);
+    //this->process(src_id, dst_id, qos_class, qos_latency, time);
     return;
 }
 

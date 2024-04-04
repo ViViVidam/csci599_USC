@@ -6,6 +6,7 @@
 #include <queue>
 #include <map>
 #include "node.h"
+#include "agg_channel.h"
 
 class Flow;
 /* this class might inherit host as well depending on the requirement*/
@@ -35,6 +36,8 @@ protected:
     std::map<uint32_t, double> SLO; // per QOS class SLO latency
     std::map <uint32_t, std::queue<int>> receive_queue; // per node a queue is maintained in the central server
     std::map <uint32_t, std::queue<int>> send_queue; // per node the failure status is maintained
+    std::vector<std::map<std::pair<uint32_t, uint32_t>, AggChannel *>> channels;
+    uint32_t count_channel;
 public:
     /*
       central server needs to know about all the data in the setup
@@ -55,7 +58,7 @@ public:
 
     bool receive_info_from_node(uint32_t src_id, uint32_t dst_id, int qos_class);
 
-    void send_info_to_node(uint32_t node_id,int qos_class, double qos_latency, uint32_t src_id, uint32_t dst_id);
+    void send_info_to_central(uint32_t flow_id,int priority, double qos_latency, uint32_t src_id, uint32_t dst_id,int flow_size);
 
     void process(uint32_t src_id,uint32_t dst_id, int qos_class,double qos_latency, double time);
 
