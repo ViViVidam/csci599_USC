@@ -26,10 +26,11 @@
 #include "../coresim/random_variable.h"
 #include "../coresim/topology.h"
 #include "../ext/factory.h"
+#include "../ext/central_server.h"
 #include "flow_generator.h"
 #include "params.h"
 
-
+extern CentralServer* centralServer;
 extern Topology *topology;
 extern double current_time;
 //extern std::vector<std::priority_queue<Event*, std::vector<Event*>, EventComparator>> event_queues;
@@ -67,7 +68,7 @@ extern uint32_t num_outstanding_packets_at_50;
 extern uint32_t num_outstanding_packets_at_100;
 extern uint32_t arrival_packets_at_50;
 extern uint32_t arrival_packets_at_100;
-
+extern CentralServer centralServer;
 extern uint32_t num_pkt_drops;
 extern uint32_t pkt_drops_agg_switches;
 extern uint32_t pkt_drops_core_switches;
@@ -229,7 +230,9 @@ void run_experiment(int argc, char **argv, uint32_t exp_type) {
         std::cout << "Using Pfabric topology" << std::endl;
         topology = new PFabricTopology(params.num_hosts, params.num_agg_switches, params.num_core_switches, params.bandwidth, params.queue_type);
     }
+    int central_id = topology->hosts.size()+1;
 
+    centralServer = new CentralServer(central_id,HOST,params.num_hosts,params.num_agg_switches,params.num_core_switches,params.bandwidth,params.queue_type,params.hardcoded_targets);
     // Create AggChannel
     // Assume single direction INCAST traffic (N-1 send to 1)
     // The global variable "channels" is a vector of map with key being src-dst pair and value being ptr to the actual channel.

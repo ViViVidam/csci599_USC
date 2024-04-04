@@ -14,7 +14,6 @@
 #include "../ext/factory.h"
 #include "../run/params.h"
 #include "../ext/central_server.h"
-class CentralServer;
 extern double get_current_time();
 extern void add_to_event_queue(Event *);
 extern DCExpParams params;

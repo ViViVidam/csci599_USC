@@ -20,8 +20,9 @@
 #include "random_variable.h"
 #include "topology.h"
 #include "../run/params.h"
-
+#include "../ext/central_server.h"
 Topology* topology;
+CentralServer* centralServer;
 double current_time = 0;
 //std::vector<std::priority_queue<Event*, std::vector<Event*>, EventComparator>> event_queues;
 std::priority_queue<Event*, std::vector<Event*>, EventComparator> event_queue;
