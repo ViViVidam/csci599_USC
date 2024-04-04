@@ -10,6 +10,23 @@ class Flow;
 #include "../coresim/node.h"
 
 /* this class might inherit host as well depending on the requirement*/
+
+std::Struct PerSrcDestDetails{
+  std::double QOS_H_fct_curr;
+  std::double QOS_M_fct_curr;
+  std::double QOS_L_fct_curr;
+  
+  // default values for alpha and beta will be given.
+  std::double alpha_H, beta_H;
+  std::double alpha_M, beta_M;
+  std::double alpha_L, beta_L;
+
+  std:: double admit_prob_H;
+  std:: double admit_prob_M;
+  std:: double admit_prob_L;
+
+};
+
 class CentralServer:public Node{
   /*
     the central server is responsible for the following tasks:
@@ -30,18 +47,20 @@ class CentralServer:public Node{
     */
 
     CentralServer(
-      uint32_t id,
-      uint32_t type
-      uint32_t num_hosts,
-      uint32_t num_agg_switches,
-      uint32_t num_core_switches,
-      double bandwidth,
-      uint32_t queue_type,
+      std::uint32_t id,
+      std::uint32_t type
+      std::uint32_t num_hosts,
+      std::uint32_t num_agg_switches,
+      std::uint32_t num_core_switches,
+      std::double bandwidth,
+      std::uint32_t queue_type,
       std::vector<uint32_t> SLO_values);
+      std::map<pair<uint32_t, uint32_t>, PerNodeDetails> per_node_info; 
+
     
-    std:: vector<uint32_t> receive_info_from_node(uint32_t node_id);
-    std:: bool send_info_to_node(uint32_t node_id);
-    std:: process();
+    std::bool receive_info_from_node(uint32_t node_id);
+    std::void send_info_to_node(uint32_t node_id, string, qos_class, double qos_latency);
+    std::process();
 
 };
 
