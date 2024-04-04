@@ -222,6 +222,8 @@ void run_experiment(int argc, char **argv, uint32_t exp_type) {
     read_experiment_parameters(conf_filename, exp_type);
 
     if (params.big_switch) {
+
+        // Defines topology here
         topology = new BigSwitchTopology(params.num_hosts, params.bandwidth, params.queue_type);
     } else {
         std::cout << "Using Pfabric topology" << std::endl;

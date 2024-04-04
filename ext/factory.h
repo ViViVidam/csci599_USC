@@ -25,6 +25,7 @@
 #define QJUMP_HOST 7
 #define HOMA_HOST 10
 
+// forward declaration of classes
 class Flow;
 class Host;
 class Queue;
@@ -32,6 +33,10 @@ class Channel;
 class AggChannel;
 
 class Factory {
+    /*
+        Most of the definitions are here just refer this file
+        paced rate - ? how is it related to this project
+    */
     public:
         static int flow_counter;
         static Flow *get_flow(

@@ -7,19 +7,21 @@
 #include <string>
 #include "../ext/factory.h"
 
+
+// Data center experiment parameters
 DCExpParams params;
 
-/* Read parameters from a config file */
+/*it  Read parameters from a config file */
 void read_experiment_parameters(std::string conf_filename, uint32_t exp_type) {
     std::cout << "PUPU: config filename: " << conf_filename << std::endl;
     std::ifstream input(conf_filename);
     std::string line;
     std::string key;
     params.interarrival_cdf = "none";
-    params.permutation_tm = 0;
-    params.hdr_size = 40;
+    params.permutation_tm = 0; // permutation time ?
+    params.hdr_size = 40; // header packet size ?
     params.num_hosts = 144;
-    params.num_agg_switches = 9;
+    params.num_agg_switches = 9; // number of aggregation switches
     params.num_core_switches = 4;
     params.weights = std::vector<int>();
     params.targets = std::vector<double>();
