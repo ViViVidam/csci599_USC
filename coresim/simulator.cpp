@@ -20,7 +20,7 @@
 #include "random_variable.h"
 #include "topology.h"
 #include "../run/params.h"
-#include "../ext/central_server.h"
+#include "central_server.h"
 Topology* topology;
 CentralServer* centralServer;
 double current_time = 0;

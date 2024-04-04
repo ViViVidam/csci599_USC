@@ -13,7 +13,7 @@
 #include "packet.h"
 #include "../ext/factory.h"
 #include "../run/params.h"
-#include "../ext/central_server.h"
+#include "central_server.h"
 extern double get_current_time();
 extern void add_to_event_queue(Event *);
 extern DCExpParams params;
@@ -153,7 +153,7 @@ void Flow::start_flow() {
             channel = new Channel(id, src, dst, run_priority, agg_channel);
         }
         */
-        bool is_downgrade = centralServer->receive_info_from_node(src, dst, run_priority);
+        bool is_downgrade = centralServer->receive_info_from_node(src->id, dst->id, run_priority);
         if (is_downgrade) {
             run_priority = params.weights.size() - 1;
             num_downgrades++;

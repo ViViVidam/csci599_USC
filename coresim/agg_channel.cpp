@@ -9,7 +9,7 @@
 #include "node.h"
 #include "../run/params.h"
 #include "../ext/factory.h"
-#include "../ext/central_server.h"
+#include "central_server.h"
 
 extern CentralServer* centralServer;
 extern double get_current_time();
@@ -78,7 +78,7 @@ void AggChannel::process_latency_signal(double fct_in, uint32_t flow_id, int flo
         }
     }
     num_rpcs_in_memory++;
-    centralServer->send_info_to_node(flow_id,this->priority,fct_in,this->src,this->dst);
+    centralServer->send_info_to_node(flow_id,this->priority,fct_in,this->src->id,this->dst->id);
     // Idea2: count by time
     /*
     double current_memory_time = get_current_time();
@@ -114,6 +114,7 @@ void AggChannel::process_latency_signal(double fct_in, uint32_t flow_id, int flo
             qos_h_admit_prob_per_host[src->id].push_back(admit_prob);
             qos_h_memory_misses.push_back(num_misses_in_mem);
             if (params.test_fairness) {
+                double time_elapsed  = get_current_time() - fairness_last_check_time[src->id];
                 double time_elapsed  = get_current_time() - fairness_last_check_time[src->id];
                 if (time_elapsed > 50000 / 1e6) {  // 50ms interval for rate measurement in 2-flow fairness
                 ////if (time_elapsed > 20000 / 1e6) {  // 20ms interval for rate measurement in 33-node fairness

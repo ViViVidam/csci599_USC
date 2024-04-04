@@ -1,0 +1,64 @@
+#ifndef CENTRAL_SERVER_H
+#define CENTRAL_SERVER_H
+
+#include <cstdint>
+#include <vector>
+#include <queue>
+#include <map>
+#include "node.h"
+
+class Flow;
+/* this class might inherit host as well depending on the requirement*/
+
+struct PerSrcDestDetails{
+  double QOS_H_fct_curr;
+  double QOS_M_fct_curr;
+  double QOS_L_fct_curr;
+  
+  // default values for alpha and beta will be given.
+  double alpha_H, beta_H;
+  double alpha_M, beta_M;
+  double alpha_L, beta_L;
+
+  double admit_prob_H;
+  double admit_prob_M;
+  double admit_prob_L;
+
+  uint32_t num_downgrades = 0 ;
+  double last;
+  double incremen_window;
+
+};
+
+class CentralServer:public Node {
+protected:
+    std::map<uint32_t, double> SLO; // per QOS class SLO latency
+    std::map <uint32_t, std::queue<int>> receive_queue; // per node a queue is maintained in the central server
+    std::map <uint32_t, std::queue<int>> send_queue; // per node the failure status is maintained
+public:
+    /*
+      central server needs to know about all the data in the setup
+      like hosts, switches, queues, bandwidth etc
+    */
+
+    CentralServer(uint32_t id, int type,
+            uint32_t num_hosts,
+            uint32_t num_agg_switches,
+            uint32_t num_core_switches,
+            double bandwidth,
+            uint32_t queue_type,
+            // 0 - high latency, 1 - medium latency, 2 - low latency
+            std::vector <double> SLO_values);
+
+    std::map <std::pair<uint32_t, uint32_t>, PerSrcDestDetails> per_node_info;
+
+
+    bool receive_info_from_node(uint32_t src_id, uint32_t dst_id, int qos_class);
+
+    void send_info_to_node(uint32_t node_id,int qos_class, double qos_latency, uint32_t src_id, uint32_t dst_id);
+
+    void process(uint32_t src_id,uint32_t dst_id, int qos_class,double qos_latency, double time);
+
+};
+
+#endif

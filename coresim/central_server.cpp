@@ -5,26 +5,23 @@
 #include <assert.h>
 #include <string.h>
 
-#include "../coresim/event.h"
-#include "../coresim/queue.h"
+#include "event.h"
+#include "queue.h"
 #include "../run/params.h"
 
 
 
-CentralServer::CentralServer(
-    uint32_t id,
-    uint32_t type,
-    uint32_t num_hosts,
-    uint32_t num_agg_switches,
-    uint32_t num_core_switches,
-    double bandwidth,
-    uint32_t queue_type,
-    std::vector<uint32_t> SLO_values
-    ): Node(id, type) {
-      // empty constructor
+CentralServer::CentralServer(uint32_t id, int type,
+        uint32_t num_hosts,
+        uint32_t num_agg_switches,
+        uint32_t num_core_switches,
+        double bandwidth,
+        uint32_t queue_type,
+        std::vector <double> SLO_values): Node(id, type) {
+    // empty constructor
 }
 
-std::bool CentralServer::send_info_to_node(uint32_t node_id,int qos_class, double qos_latency, uint32_t src_id, uint32_t dst_id) {
+bool CentralServer::send_info_to_node(uint32_t node_id,int qos_class, double qos_latency, uint32_t src_id, uint32_t dst_id) {
     // Implement the logic to send info to the node
 
     if(qos_class == 'H')
@@ -38,7 +35,7 @@ std::bool CentralServer::send_info_to_node(uint32_t node_id,int qos_class, doubl
     return;
 }
 
-std::void CentralServer::process(uint32_t src_id,uint32_t dst_id, int qos_class,double qos_latency, double time) {
+void CentralServer::process(uint32_t src_id,uint32_t dst_id, int qos_class,double qos_latency, double time) {
     // Implement the logic to process the info received from the nodes
     if(this->per_node_info[{src_id, dst_id}]){
       // check if the info is present
@@ -48,26 +45,26 @@ std::void CentralServer::process(uint32_t src_id,uint32_t dst_id, int qos_class,
         if(qos_latency < this->SLO_values[0]){
           if(time - last> this.increment_window){
             double admit_prob_h = this.per_node_info[{src_id, dst_id}].admit_prob_H;
-            admit_prob_h = min(admit_prob_h+dp_alpha, 1.0);
-            this.per_node_info[{src_id, dst_id}].admit_prob_H = admit_prob_h;
-            last = time;
+            admit_prob_h = std::min(admit_prob_h+dp_alpha, 1.0);
+            this->per_node_info[{src_id, dst_id}].admit_prob_H = admit_prob_h;
+            this.last = time;
           }
         }else{
             double admit_prob_h = this.per_node_info[{src_id, dst_id}].admit_prob_H;
-            admit_prob_h = max(admit_prob_h-dp_beta, 0.1);
+            admit_prob_h = std::max(admit_prob_h-dp_beta, 0.1);
         }
       }
       else if(qos_class == 2){
-        if(qos_latency < this->SLO_values[1]){
-          if(time - last> this.increment_window){
+        if(qos_latency < this->SLO[1]){
+          if(time - last> this->increment_window){
             double admit_prob_m = this.per_node_info[{src_id, dst_id}].admit_prob_M;
-            admit_prob_m = min(admit_prob_m+dp_alpha, 1.0);
-            this.per_node_info[{src_id, dst_id}].admit_prob_M = admit_prob_m;
+            admit_prob_m = std::min(admit_prob_m+dp_alpha, 1.0);
+            this->per_node_info[{src_id, dst_id}].admit_prob_M = admit_prob_m;
             last = time;
           }
         }else{
-            double admit_prob_m = this.per_node_info[{src_id, dst_id}].admit_prob_M;
-            admit_prob_m = max(admit_prob_m-dp_beta, 0.1);
+            double admit_prob_m = this->per_node_info[{src_id, dst_id}].admit_prob_M;
+            admit_prob_m = std::max(admit_prob_m-dp_beta, 0.1);
         }
       }
     }else{
@@ -76,7 +73,7 @@ std::void CentralServer::process(uint32_t src_id,uint32_t dst_id, int qos_class,
     }
 }
 
-std::bool CentralServer::receive_info_from_node(uint32_t src_id, uint32_t dst_id, int qos_class, double time) {
+bool CentralServer::receive_info_from_node(uint32_t src_id, uint32_t dst_id, int qos_class) {
     // Implement the logic to process the info received from the nodes
     double val = (double)rand() / (RAND_MAX);
 
