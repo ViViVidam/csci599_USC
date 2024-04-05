@@ -7,8 +7,8 @@ bandwidth: 100000000000.0
 host_type: 1
 queue_type: 6
 flow_type: 6
-num_flow: 10000000
-num_hosts: 10
+num_flow: 1000000
+num_hosts: 6
 flow_trace: ./CDF_uniform_32K.txt
 cut_through: 0
 pfabric_priority_type: size
@@ -50,4 +50,4 @@ burst_at_beginning: 0
 cc_delay_target: 10
 qos_weights: 8,4,1
 qos_ratio: 60,30,10
-enable_central_server: 0
+enable_central_server: 1
