@@ -81,10 +81,10 @@ double Channel::get_admit_prob() {
 }
 
 void Channel::update_fct(double fct_in, uint32_t flow_id, double update_time, int flow_size) {
+    //std::cout << "update_fct "<<priority << " " << params.weights.size() - 1 << std::endl;
     if (priority == params.weights.size() - 1) { return; }    // no need for qos_L
     fct = fct_in * 1e6;        // fct in us
     last_update_time = update_time;
-
     //window_insert(fct, flow_id, flow_size);
     if (params.enable_central_server){
         centralServer->send_info_to_central(flow_id,this->priority,fct_in,this->src->id,this->dst->id,flow_size);
@@ -369,6 +369,7 @@ void Channel::cleanup_after_finish(Flow *flow) {
 }
 
 void Channel::receive_ack(uint64_t ack, Flow *flow, std::vector<uint64_t> sack_list, double pkt_start_ts) {
+    //std::cout << "receive_ack in Channel" << std::endl;
     if (params.debug_event_info) {
         std::cout << "Channel[" << id << "] with priority " << priority << " receive ack: " << ack << std::endl;
     }

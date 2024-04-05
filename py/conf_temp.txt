@@ -40,6 +40,7 @@ disable_cwnd_logging: 1
 disable_dwnd_logging: 1
 disable_poisson_arrival: 0
 test_fairness: 0
+priority_downgrade: 1
 load: 0.8
 use_dynamic_load: 1
 burst_load: 1.4

@@ -35,6 +35,7 @@ CentralServer::CentralServer(uint32_t id, int type, uint32_t num_hosts, uint32_t
 void CentralServer::send_info_to_central(uint32_t flow_id,int priority, double qos_latency, uint32_t src_id, uint32_t dst_id,int flow_size) {
     // Implement the logic to send info to the node
     //std::cout << "send_info_to_central" << std::endl;
+    //std::cout << "send info to central" << std::endl;
     if(priority == 0)
         this->per_node_info[{src_id, dst_id}].QOS_H_fct_curr = qos_latency;
     else if(priority == 1)
@@ -50,6 +51,7 @@ void CentralServer::send_info_to_central(uint32_t flow_id,int priority, double q
 
 void CentralServer::process(uint32_t src_id,uint32_t dst_id, int qos_class,double qos_latency, double time) {
     // Implement the logic to process the info received from the nodes
+
     if(this->per_node_info.count({src_id, dst_id}) > 0){
       // check if the info is present
       //update the values for alpha and beta per each class
@@ -85,7 +87,7 @@ void CentralServer::process(uint32_t src_id,uint32_t dst_id, int qos_class,doubl
       
     }
 }
-
+//true: send at same priority
 bool CentralServer::receive_info_from_central_node(uint32_t src_id, uint32_t dst_id, int qos_class) {
     // Implement the logic to process the info received from the nodes
     // std::cout << "receive_info_from_central_node" << std::endl;
@@ -103,7 +105,8 @@ bool CentralServer::receive_info_from_central_node(uint32_t src_id, uint32_t dst
     //                 per_pctl_downgrades[1]++;
     //             }
     //  }
-    if(qos_class < (params.weights.size() - 1) && val <= this->channels[qos_class][{src_id, dst_id}]->admit_prob) {
+
+    if(val <= this->channels[qos_class][{src_id, dst_id}]->admit_prob) {
         return true;
     }
     else{
