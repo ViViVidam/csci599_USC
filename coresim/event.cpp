@@ -381,15 +381,16 @@ void FlowArrivalEvent::process_event() {
             arrival_packets_at_100 = arrival_packets_count;
             num_outstanding_packets_at_100 = num_outstanding_packets;
         }
-
-        std::cout << std::setprecision(15) << std::fixed;
-        std::cout << "## " << get_current_time() << " NumPktOutstd " << num_outstanding_packets
-            << " MaxPktOutstd " << max_outstanding_packets
-            << " PktDropsSoFar " << num_pkt_drops
-            << " NumUnfFlows " << num_unfinished_flows << " StartedFlows " << flow_arrival_count
-            << " NumRPCsOutstd " << num_outstanding_rpcs
-            << " StartedPkts " << arrival_packets_count
-            << " NumDowngrades(H/M) " << per_pctl_downgrades[0] << "/" << per_pctl_downgrades[1] << std::endl;
+        if(!params.enable_central_server) {
+            std::cout << std::setprecision(15) << std::fixed;
+            std::cout << "## " << get_current_time() << " NumPktOutstd " << num_outstanding_packets
+                      << " MaxPktOutstd " << max_outstanding_packets
+                      << " PktDropsSoFar " << num_pkt_drops
+                      << " NumUnfFlows " << num_unfinished_flows << " StartedFlows " << flow_arrival_count
+                      << " NumRPCsOutstd " << num_outstanding_rpcs
+                      << " StartedPkts " << arrival_packets_count
+                      << " NumDowngrades(H/M) " << per_pctl_downgrades[0] << "/" << per_pctl_downgrades[1] << std::endl;
+        }
         //for (int i = 0; i < params.num_hosts; i++) {
         //    std::cout << "host[" << i << "] QoS high rpc issued/downs: " << per_host_QoS_H_rpcs[i] << "/" << per_host_QoS_H_downgrades[i] << std::endl;
         //    per_host_QoS_H_downgrades[i] = 0;
