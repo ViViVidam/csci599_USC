@@ -129,20 +129,37 @@ void Flow::start_flow() {
             per_host_QoS_H_rpcs[src->id]++;
         }
         if (flow_priority < 2) {
-//            double admit_prob = agg_channel->admit_prob;
-//            if ((double)rand() / (RAND_MAX) > admit_prob) {
-//                run_priority = params.weights.size() - 1;
-//                num_downgrades++;
-//                num_downgrades_per_host[src->id]++;
-//                if (flow_priority == 0) {
-//                    per_host_QoS_H_downgrades[src->id]++;
-//                    num_qos_h_downgrades[1]++;
-//                    per_pctl_downgrades[0]++;
-//                } else {
-//                    num_qos_m_downgrades++;
-//                    per_pctl_downgrades[1]++;
-//                }
-//           }
+           if(params.enable_central_server){
+             bool is_downgrade = centralServer->receive_info_from_central_node(src->id, dst->id, run_priority);
+            if (is_downgrade) {
+                run_priority = params.weights.size() - 1;
+                num_downgrades++;
+                num_downgrades_per_host[src->id]++;
+                if (flow_priority == 0) {
+                    per_host_QoS_H_downgrades[src->id]++;
+                    num_qos_h_downgrades[1]++;
+                    per_pctl_downgrades[0]++;
+                } else {
+                    num_qos_m_downgrades++;
+                    per_pctl_downgrades[1]++;
+                }
+            }
+           }else{
+            double admit_prob = agg_channel->admit_prob;
+            if ((double)rand() / (RAND_MAX) > admit_prob) {
+                run_priority = params.weights.size() - 1;
+                num_downgrades++;
+                num_downgrades_per_host[src->id]++;
+                if (flow_priority == 0) {
+                    per_host_QoS_H_downgrades[src->id]++;
+                    num_qos_h_downgrades[1]++;
+                    per_pctl_downgrades[0]++;
+                } else {
+                    num_qos_m_downgrades++;
+                    per_pctl_downgrades[1]++;
+                }
+            }
+          }
         }
 
         // Now if gets downgraded, delete the old one-shot channel and creates a new one
@@ -153,20 +170,7 @@ void Flow::start_flow() {
             channel = new Channel(id, src, dst, run_priority, agg_channel);
         }
         */
-        bool is_downgrade = centralServer->receive_info_from_central_node(src->id, dst->id, run_priority);
-        if (is_downgrade) {
-            run_priority = params.weights.size() - 1;
-            num_downgrades++;
-            num_downgrades_per_host[src->id]++;
-            if (flow_priority == 0) {
-                per_host_QoS_H_downgrades[src->id]++;
-                num_qos_h_downgrades[1]++;
-                per_pctl_downgrades[0]++;
-            } else {
-                num_qos_m_downgrades++;
-                per_pctl_downgrades[1]++;
-            }
-        }
+        
     }
 
     agg_channel = channels[run_priority][std::make_pair(src->id, dst->id)];

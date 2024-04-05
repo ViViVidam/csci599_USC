@@ -229,9 +229,13 @@ void run_experiment(int argc, char **argv, uint32_t exp_type) {
         std::cout << "Using Pfabric topology" << std::endl;
         topology = new PFabricTopology(params.num_hosts, params.num_agg_switches, params.num_core_switches, params.bandwidth, params.queue_type);
     }
-    uint32_t central_id = topology->hosts.size()+1;
+    
 
-    centralServer = new CentralServer(central_id,NORMAL_HOST,params.num_hosts,params.num_agg_switches,params.num_core_switches,params.bandwidth,params.queue_type,params.hardcoded_targets,topology);
+
+    if (params.enable_central_server){
+        uint32_t central_id = topology->hosts.size()+1;
+        centralServer = new CentralServer(central_id,NORMAL_HOST,params.num_hosts,params.num_agg_switches,params.num_core_switches,params.bandwidth,params.queue_type,params.hardcoded_targets,topology);
+    }
     // Create AggChannel
     // Assume single direction INCAST traffic (N-1 send to 1)
     // The global variable "channels" is a vector of map with key being src-dst pair and value being ptr to the actual channel.
