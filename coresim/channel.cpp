@@ -87,7 +87,7 @@ void Channel::update_fct(double fct_in, uint32_t flow_id, double update_time, in
     last_update_time = update_time;
     //window_insert(fct, flow_id, flow_size);
     if (params.enable_central_server){
-        centralServer->send_info_to_central(flow_id,this->priority,fct_in,this->src->id,this->dst->id,flow_size);
+        centralServer->send_info_to_central(flow_id,this->priority,fct,this->src->id,this->dst->id,flow_size);
     }else{
         agg_channel->process_latency_signal(fct, flow_id, flow_size);
     }

@@ -69,6 +69,7 @@ void AggChannel::process_latency_signal(double fct_in, uint32_t flow_id, int flo
     if (params.normalized_lat) {
         fct_in = fct_in / flow_size;
     }
+    //std::cout << fct_in << " " << RPC_latency_target << std::endl;
     if (fct_in > RPC_latency_target) {    // increment with incoming miss
         num_misses_in_mem++;        // assuming entire window >= memory size; Idea 1
         if (priority == 0) {
@@ -124,7 +125,6 @@ void AggChannel::process_latency_signal(double fct_in, uint32_t flow_id, int flo
 
             }
         }
-
         num_misses_in_mem = 0;
         num_rpcs_in_memory = 0;
         collect_memory = false;

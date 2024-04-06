@@ -333,10 +333,12 @@ FlowArrivalEvent::~FlowArrivalEvent() {
 
 void FlowArrivalEvent::process_event() {
     if (params.debug_event_info) {
-        std::cout << "At time: " << get_current_time() << ", Flow[" << flow->id << "] at Priority[" << flow->flow_priority << "] from Host[" << flow->src->id << "] FlowArrivalEvent" << std::endl;
+        std::cout << "At time: " << get_current_time() << ", Flow[" << flow->id << "] at Priority["
+                  << flow->flow_priority << "] from Host[" << flow->src->id << "] FlowArrivalEvent" << std::endl;
     }
     if (params.enable_flow_lookup && flow->id == params.flow_lookup_id) {
-        std::cout << "At time: " << get_current_time() << ", Flow[" << flow->id << "] at Priority[" << flow->flow_priority << "] from Host[" << flow->src->id << "] FlowArrivalEvent" << std::endl;
+        std::cout << "At time: " << get_current_time() << ", Flow[" << flow->id << "] at Priority["
+                  << flow->flow_priority << "] from Host[" << flow->src->id << "] FlowArrivalEvent" << std::endl;
     }
     //Flows start at line rate; so schedule a packet to be transmitted
     //First packet scheduled to be queued
@@ -360,36 +362,34 @@ void FlowArrivalEvent::process_event() {
     }
     */
 
-    if(params.num_flows_to_run > 10 && flow_arrival_count % 100000 == 0){
-    ////if(params.num_flows_to_run > 10 && flow_arrival_count % 10000 == 0){
+    if (params.num_flows_to_run > 10 && flow_arrival_count % 100000 == 0) {
+        ////if(params.num_flows_to_run > 10 && flow_arrival_count % 10000 == 0){
         uint32_t num_unfinished_flows = 0;
         for (uint32_t i = 0; i < flows_to_schedule.size(); i++) {
             Flow *f = flows_to_schedule[i];
             if (f->start_time < get_current_time()) {
                 if (!f->finished) {
-                    num_unfinished_flows ++;
+                    num_unfinished_flows++;
                 }
             }
         }
-        if(flow_arrival_count == (int)(params.num_flows_to_run * 0.5))
-        {
+        if (flow_arrival_count == (int) (params.num_flows_to_run * 0.5)) {
             arrival_packets_at_50 = arrival_packets_count;
             num_outstanding_packets_at_50 = num_outstanding_packets;
         }
-        if(flow_arrival_count == params.num_flows_to_run)
-        {
+        if (flow_arrival_count == params.num_flows_to_run) {
             arrival_packets_at_100 = arrival_packets_count;
             num_outstanding_packets_at_100 = num_outstanding_packets;
         }
         //if(!params.enable_central_server) {
-            std::cout << std::setprecision(15) << std::fixed;
-            std::cout << "## " << get_current_time() << " NumPktOutstd " << num_outstanding_packets
-                      << " MaxPktOutstd " << max_outstanding_packets
-                      << " PktDropsSoFar " << num_pkt_drops
-                      << " NumUnfFlows " << num_unfinished_flows << " StartedFlows " << flow_arrival_count
-                      << " NumRPCsOutstd " << num_outstanding_rpcs
-                      << " StartedPkts " << arrival_packets_count
-                      << " NumDowngrades(H/M) " << per_pctl_downgrades[0] << "/" << per_pctl_downgrades[1] << std::endl;
+        std::cout << std::setprecision(15) << std::fixed;
+        std::cout << "## " << get_current_time() << " NumPktOutstd " << num_outstanding_packets
+                  << " MaxPktOutstd " << max_outstanding_packets
+                  << " PktDropsSoFar " << num_pkt_drops
+                  << " NumUnfFlows " << num_unfinished_flows << " StartedFlows " << flow_arrival_count
+                  << " NumRPCsOutstd " << num_outstanding_rpcs
+                  << " StartedPkts " << arrival_packets_count
+                  << " NumDowngrades(H/M) " << per_pctl_downgrades[0] << "/" << per_pctl_downgrades[1] << std::endl;
         //}
         //for (int i = 0; i < params.num_hosts; i++) {
         //    std::cout << "host[" << i << "] QoS high rpc issued/downs: " << per_host_QoS_H_rpcs[i] << "/" << per_host_QoS_H_downgrades[i] << std::endl;
@@ -399,20 +399,20 @@ void FlowArrivalEvent::process_event() {
         num_outstanding_rpcs_total.push_back(num_outstanding_rpcs);
         if (params.priority_downgrade) {
 
-                double sum_prob = 0;
-                uint32_t num_samples = qos_h_admit_prob.size();
-                for (double p: qos_h_admit_prob) {
-                    sum_prob += p;
-                }
-                double prob_avg = sum_prob / num_samples;
-                double deviation = 0;
-                for (double p: qos_h_admit_prob) {
-                    deviation += (prob_avg - p) * (prob_avg - p);
-                }
-                deviation = deviation / num_samples;
-                std::cout << std::setprecision(2) << std::fixed;
-                std::cout << "All QoS_H Host avg prob: " << prob_avg << std::endl;
-                std::cout << "All QoS_H Host dev prob: " << deviation << std::endl;
+            double sum_prob = 0;
+            uint32_t num_samples = qos_h_admit_prob.size();
+            for (double p: qos_h_admit_prob) {
+                sum_prob += p;
+            }
+            double prob_avg = sum_prob / num_samples;
+            double deviation = 0;
+            for (double p: qos_h_admit_prob) {
+                deviation += (prob_avg - p) * (prob_avg - p);
+            }
+            deviation = deviation / num_samples;
+            std::cout << std::setprecision(2) << std::fixed;
+            std::cout << "All QoS_H Host avg prob: " << prob_avg << std::endl;
+            std::cout << "All QoS_H Host dev prob: " << deviation << std::endl;
             //sort(qos_h_down_prob.begin(), qos_h_down_prob.end());
             //double prob_50th = qos_h_down_prob[num_samples * 0.50];
             //double prob_90th = qos_h_down_prob[num_samples * 0.90];
