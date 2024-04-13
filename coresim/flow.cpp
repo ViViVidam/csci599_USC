@@ -59,7 +59,6 @@ Flow::Flow(uint32_t id, double start_time, uint32_t size, Host *s, Host *d) {
     this->bytes_sent = 0;
     this->start_seq_no = 0;
     this->end_seq_no = 0;
-
     this->received_bytes = 0;
     this->recv_till = 0;
     this->max_seq_no_recv = 0;
@@ -294,7 +293,7 @@ void Flow::receive_ack(uint64_t ack, std::vector<uint64_t> sack_list, double pkt
 
         // Measure RTT (for delay-based CC)
         double rtt = (get_current_time() - pkt_start_ts) * 1000000;    // in us
-        //std::cout << "rtt: current_time = " << get_current_time() << "; pkt_start_ts = " << pkt_start_ts << std::endl;
+        // std::cout << "rtt: current_time = " << get_current_time() << "; pkt_start_ts = " << pkt_start_ts << std::endl;
         //if (rtt > params.cc_delay_target)
         //    std::cout << "rtt measurements: " << rtt << std::endl;
         if (!params.disable_pkt_logging) {

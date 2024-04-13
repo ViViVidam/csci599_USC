@@ -86,6 +86,7 @@ void read_experiment_parameters(std::string conf_filename, uint32_t exp_type) {
     params.cdf_info = 0;
     params.homa_sampling_freq = 5000;
     params.homa_rttbytes_in_mss = 100;   // assuming 100Gbps network
+    params.use_recend_ctl = 0;
     //params.enable_initial_shift = 0;
     //params.dynamic_load = std::vector<double>();
     while (std::getline(input, line)) {
@@ -414,6 +415,9 @@ void read_experiment_parameters(std::string conf_filename, uint32_t exp_type) {
         }
         else if (key == "bytes_mode") {
             lineStream >> params.bytes_mode;
+        }
+        else if (key == "end_point") {
+            lineStream >> params.use_recend_ctl;
         }
         else if (key == "homa_sampling_freq") {
             lineStream >> params.homa_sampling_freq;

@@ -7,6 +7,7 @@ bandwidth: 100000000000.0
 host_type: 1
 queue_type: 6
 flow_type: 6
+end_point: 1
 num_flow: 1000000
 num_hosts: 6
 flow_trace: ./CDF_uniform_32K.txt

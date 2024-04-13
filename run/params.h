@@ -118,7 +118,7 @@ public:
     double magic_trans_slack;
     uint32_t magic_delay_scheduling;
     uint32_t magic_inflate;
-
+    uint32_t use_recend_ctl;
     uint32_t use_flow_trace;
     uint32_t smooth_cdf;
     uint32_t burst_at_beginning;

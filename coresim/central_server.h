@@ -29,12 +29,12 @@ struct PerSrcDestDetails{
 class CentralServer{
 protected:
     std::vector<double> SLO_values; // per QOS class SLO latency
-    std::map <uint32_t, std::queue<int>> receive_queue; // per node a queue is maintained in the central server
-    std::map <uint32_t, std::queue<int>> send_queue; // per node the failure status is maintained
     std::vector<std::map<std::pair<uint32_t, uint32_t>, AggChannel *>> channels;
+    std::vector<std::vector<double>> channels_PL;
+    uint32_t use_endp_ctl = 0;
     uint32_t count_channel = 0;
-    double increment_window;
-    double dp_alpha, dp_beta;
+    double alpha = 0.8;
+    double beta = 0.2;
 public:
     /*
       central server needs to know about all the data in the setup
@@ -44,12 +44,9 @@ public:
     CentralServer(uint32_t id, int type, uint32_t num_hosts, uint32_t num_agg_switches, uint32_t num_core_switches,
                   double bandwidth, uint32_t queue_type, std::vector <double> SLO_values, Topology* topology);
 
-    std::map <std::pair<uint32_t, uint32_t>, PerSrcDestDetails> per_node_info;
-
-
     bool receive_info_from_central_node(uint32_t src_id, uint32_t dst_id, int qos_class);
 
-    void send_info_to_central(uint32_t flow_id,int priority, double qos_latency, uint32_t src_id, uint32_t dst_id,int flow_size);
+    void send_info_to_central(uint32_t flow_id,int priority, double PL,double NL, uint32_t src_id, uint32_t dst_id,int flow_size);
 
     void process(uint32_t src_id,uint32_t dst_id, int qos_class,double qos_latency, double time);
 

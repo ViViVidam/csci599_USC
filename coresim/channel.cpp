@@ -63,6 +63,7 @@ Channel::Channel(uint32_t id, Host *s, Host *d, uint32_t priority, AggChannel *a
     this->last_decrease_ts = 0;
     this->fct = 0;
     this->rtt = 0;
+
     this->last_update_time = 0;
     //this->last_flow_sent = NULL;
     //this->curr_flow_done = false;
@@ -87,7 +88,7 @@ void Channel::update_fct(double fct_in, uint32_t flow_id, double update_time, in
     last_update_time = update_time;
     //window_insert(fct, flow_id, flow_size);
     if (params.enable_central_server){
-        centralServer->send_info_to_central(flow_id,this->priority,fct,this->src->id,this->dst->id,flow_size);
+        centralServer->send_info_to_central(flow_id,this->priority,fct - this->rtt,this->rtt,this->src->id,this->dst->id,flow_size);
     }else{
         agg_channel->process_latency_signal(fct, flow_id, flow_size);
     }
@@ -197,6 +198,7 @@ Packet *Channel::send_one_pkt(uint64_t seq, uint32_t pkt_size, double delay, Flo
     if (params.real_nic && flow->bytes_sent == 0) {
         flow->rnl_start_time = get_current_time();
     }
+
     flow->bytes_sent += pkt_size;
 
     if (params.debug_event_info) {
@@ -394,6 +396,8 @@ void Channel::receive_ack(uint64_t ack, Flow *flow, std::vector<uint64_t> sack_l
 
         // Measure RTT (for delay-based CC)
         double rtt = (get_current_time() - pkt_start_ts) * 1000000;    // in us
+        this->total_pkt_recv++;
+        this->rtt = (this->total_pkt_recv - 1) * this->rtt / this->total_pkt_recv + rtt / this->total_pkt_recv;
         if (!params.disable_pkt_logging) {
             per_pkt_rtt[priority].push_back(rtt);
         }
@@ -434,7 +438,7 @@ void Channel::receive_ack(uint64_t ack, Flow *flow, std::vector<uint64_t> sack_l
         } else {
             flow_completion_time = flow->finish_time - flow->start_time;
         }
-        //double flow_completion_time = flow->finish_time - flow->start_time;
+        //std::cout << this->total_pkt_recv << " " << flow_completion_time * 1e6 << " " << this->rtt << std::endl;
         if (params.priority_downgrade) {
             update_fct(flow_completion_time, flow->id, get_current_time(), flow->size_in_pkt);
         }
