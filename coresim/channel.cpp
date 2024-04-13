@@ -83,6 +83,8 @@ double Channel::get_admit_prob() {
 
 void Channel::update_fct(double fct_in, uint32_t flow_id, double update_time, int flow_size) {
     //std::cout << "update_fct "<<priority << " " << params.weights.size() - 1 << std::endl;
+
+    //std::cout << "updatefct " << fct << " " << this->rtt << std::endl;
     if (priority == params.weights.size() - 1) { return; }    // no need for qos_L
     fct = fct_in * 1e6;        // fct in us
     last_update_time = update_time;
@@ -438,8 +440,9 @@ void Channel::receive_ack(uint64_t ack, Flow *flow, std::vector<uint64_t> sack_l
         } else {
             flow_completion_time = flow->finish_time - flow->start_time;
         }
-        //std::cout << this->total_pkt_recv << " " << flow_completion_time * 1e6 << " " << this->rtt << std::endl;
+
         if (params.priority_downgrade) {
+            //std::cout << this->total_pkt_recv << " " << flow_completion_time * 1e6 << " " << this->rtt << std::endl;
             update_fct(flow_completion_time, flow->id, get_current_time(), flow->size_in_pkt);
         }
         if (params.enable_flow_lookup && flow->id == params.flow_lookup_id) {

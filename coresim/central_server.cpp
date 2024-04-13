@@ -39,13 +39,17 @@ CentralServer::CentralServer(uint32_t id, int type, uint32_t num_hosts, uint32_t
 
 void CentralServer::send_info_to_central(uint32_t flow_id,int priority, double PL,double NL, uint32_t src_id, uint32_t dst_id,int flow_size) {
     // Implement the logic to send info to the node
+    //std::cout << PL << " " << NL <<std::endl;
     AggChannel *agg_channel = this->channels[priority][std::make_pair(src_id, dst_id)];
     if(this->use_endp_ctl) {
         // if not enable use endp, PL will also be zero and NL = RNL
         // if not set up PL yet, set it up
         if (this->channels_PL[priority][dst_id] == 0) this->channels_PL[priority][dst_id] = PL;
-        else this->channels_PL[priority][dst_id] += this->alpha * this->channels_PL[priority][dst_id] + this->beta * PL;
+        else this->channels_PL[priority][dst_id] = this->alpha * this->channels_PL[priority][dst_id] + this->beta * PL;
+    } else{
+        this->channels_PL[priority][dst_id] = PL;
     }
+    //std::cout << this->channels_PL[priority][dst_id] << std::endl;
     agg_channel->process_latency_signal(this->channels_PL[priority][dst_id] + NL, flow_id, flow_size);
 
     //this->process(src_id, dst_id, qos_class, qos_latency, time);
