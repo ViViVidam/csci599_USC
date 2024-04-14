@@ -234,7 +234,7 @@ void run_experiment(int argc, char **argv, uint32_t exp_type) {
 
     if (params.enable_central_server){
         uint32_t central_id = topology->hosts.size()+1;
-        centralServer = new CentralServer(central_id,NORMAL_HOST,params.num_hosts,params.num_agg_switches,params.num_core_switches,params.bandwidth,params.queue_type,params.hardcoded_targets,topology);
+        centralServer = new CentralServer(central_id,NORMAL_HOST,params.num_hosts,params.num_agg_switches,params.num_core_switches,params.bandwidth,params.queue_type,params.hardcoded_targets,topology, 0);
     }
     // Create AggChannel
     // Assume single direction INCAST traffic (N-1 send to 1)
@@ -1614,6 +1614,7 @@ void run_experiment(int argc, char **argv, uint32_t exp_type) {
     }
 
     std::cout << "Simulation event duration: " << global_last_flow_time - global_first_flow_time << " seconds." << std::endl;
+    std::cout << "failure count between central server and nodes is " << centralServer->get_failure_count() << std::endl;
     //cleanup
     delete fg;
 }

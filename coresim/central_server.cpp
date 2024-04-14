@@ -13,9 +13,10 @@
 
 extern DCExpParams params;
 CentralServer::CentralServer(uint32_t id, int type, uint32_t num_hosts, uint32_t num_agg_switches, uint32_t num_core_switches,
-        double bandwidth, uint32_t queue_type, std::vector <double> SLO_values, Topology* topology){
+        double bandwidth, uint32_t queue_type, std::vector <double> SLO_values, Topology* topology, uint32_t failure_init_val) {
     this->channels.resize(params.weights.size());
     this->SLO_values = std::vector<double>(SLO_values);
+    this->failure_count = failure_init_val;
     for (uint32_t i = 0; i < params.weights.size(); i++) {
         for (uint32_t j = 0; j < params.num_hosts; j++) {
             for (uint32_t k = 0; k < params.num_hosts; k++) {
@@ -29,6 +30,8 @@ CentralServer::CentralServer(uint32_t id, int type, uint32_t num_hosts, uint32_t
             }
         }
     }
+
+    std::cout << "DIVI: CentralServer created count of channels is " << this->count_channel << std::endl;
     // empty constructor
 }
 
@@ -92,19 +95,6 @@ bool CentralServer::receive_info_from_central_node(uint32_t src_id, uint32_t dst
     // Implement the logic to process the info received from the nodes
     // std::cout << "receive_info_from_central_node" << std::endl;
     double val = (double)rand() / (RAND_MAX);
-    // if ((double)rand() / (RAND_MAX) > admit_prob) {
-    //             run_priority = params.weights.size() - 1;
-    //             num_downgrades++;
-    //             num_downgrades_per_host[src->id]++;
-    //             if (flow_priority == 0) {
-    //                 per_host_QoS_H_downgrades[src->id]++;
-    //                 num_qos_h_downgrades[1]++;
-    //                 per_pctl_downgrades[0]++;
-    //             } else {
-    //                 num_qos_m_downgrades++;
-    //                 per_pctl_downgrades[1]++;
-    //             }
-    //  }
 
     if(val <= this->channels[qos_class][{src_id, dst_id}]->admit_prob) {
         return true;
@@ -112,10 +102,20 @@ bool CentralServer::receive_info_from_central_node(uint32_t src_id, uint32_t dst
     else{
         return false;
     }
+}
 
-    if(qos_class == 'M' && val <= this->per_node_info[{src_id, dst_id}].admit_prob_M){
+bool CentralServer::conn_to_central_node(){
+    if(!params.test_failure){
         return true;
-    }else{
+    }
+    double val = (double)rand() / (RAND_MAX);
+    if(val < 0.01){
+        this->failure_count++;
         return false;
     }
+    return true;
+}
+
+std::uint32_t CentralServer::get_failure_count(){
+    return this->failure_count;
 }
