@@ -30,6 +30,7 @@ public:
     std::vector<double> qos_ratio; // qos ratio in terms of num_flows
     std::vector<int> buffer_carving;
     uint32_t enable_central_server;
+    uint32_t test_failure;
 
     double propagation_delay;
     double bandwidth;

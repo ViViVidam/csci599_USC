@@ -129,7 +129,11 @@ void Flow::start_flow() {
             per_host_QoS_H_rpcs[src->id]++;
         }
         if (flow_priority < 2) {
-            if (params.enable_central_server) {
+            bool conn_to_central_serv = false;
+            if(params.enable_central_server){
+               conn_to_central_serv = centralServer->conn_to_central_node();
+            }
+            if (params.enable_central_server && conn_to_central_serv) {
                 bool is_downgrade = !centralServer->receive_info_from_central_node(src->id, dst->id, run_priority);
                 if (is_downgrade) {
                     run_priority = params.weights.size() - 1;

@@ -35,6 +35,7 @@ protected:
     uint32_t count_channel = 0;
     double increment_window;
     double dp_alpha, dp_beta;
+    uint32_t failure_count = 0;
 public:
     /*
       central server needs to know about all the data in the setup
@@ -42,12 +43,16 @@ public:
     */
 
     CentralServer(uint32_t id, int type, uint32_t num_hosts, uint32_t num_agg_switches, uint32_t num_core_switches,
-                  double bandwidth, uint32_t queue_type, std::vector <double> SLO_values, Topology* topology);
+                  double bandwidth, uint32_t queue_type, std::vector <double> SLO_values, Topology* topology, uint32_t failure_init_val);
 
     std::map <std::pair<uint32_t, uint32_t>, PerSrcDestDetails> per_node_info;
 
 
     bool receive_info_from_central_node(uint32_t src_id, uint32_t dst_id, int qos_class);
+
+    bool conn_to_central_node();
+
+    std::uint32_t get_failure_count();
 
     void send_info_to_central(uint32_t flow_id,int priority, double qos_latency, uint32_t src_id, uint32_t dst_id,int flow_size);
 

@@ -574,6 +574,10 @@ void read_experiment_parameters(std::string conf_filename, uint32_t exp_type) {
             lineStream >> params.enable_central_server;
             std::cout << "DIVI: central server status is " << params.enable_central_server << std::endl;
         }
+        else if(key == "test_failure"){
+            lineStream >> params.test_failure;
+            std::cout << "DIVI: test failure status is " << params.test_failure << std::endl;
+        }
         else {
             std::cout << "Unknown conf param: " << key << " in file: " << conf_filename << "\n";
             assert(false);
