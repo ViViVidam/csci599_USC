@@ -52,4 +52,5 @@ cc_delay_target: 10
 qos_weights: 8,4,1
 qos_ratio: 60,30,10
 enable_central_server: 1
-test_failure: 1
+test_failure: 0
+quota_mech: 0

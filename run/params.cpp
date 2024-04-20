@@ -578,6 +578,10 @@ void read_experiment_parameters(std::string conf_filename, uint32_t exp_type) {
             lineStream >> params.test_failure;
             std::cout << "DIVI: test failure status is " << params.test_failure << std::endl;
         }
+        else if(key == "quota_mech"){
+            lineStream >> params.quota_mech;
+            std::cout << "DIVI: quota mechanism is " << params.quota_mech << std::endl;
+        }
         else {
             std::cout << "Unknown conf param: " << key << " in file: " << conf_filename << "\n";
             assert(false);

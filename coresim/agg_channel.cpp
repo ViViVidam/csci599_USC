@@ -9,6 +9,7 @@
 #include "node.h"
 #include "../run/params.h"
 #include "../ext/factory.h"
+#include "central_server.h"
 
 extern double get_current_time();
 extern DCExpParams params;
@@ -22,6 +23,7 @@ extern std::vector<std::vector<double>> fairness_qos_h_ts_per_host;
 extern std::vector<std::vector<double>> fairness_qos_h_rates_per_host;
 extern std::vector<uint32_t> fairness_qos_h_bytes_per_host;
 extern std::vector<double> fairness_last_check_time;
+extern CentralServer* centralServer;
 
 AggChannel::AggChannel(uint32_t id, Host *s, Host *d, uint32_t priority) {
     this->id = id;
@@ -94,6 +96,9 @@ void AggChannel::process_latency_signal(double fct_in, uint32_t flow_id, int flo
             }
         } else {
             //// Always use normalized beta value; i.e., always do dp_beta * flow_size regardless of the value of params.normalized_lat
+            if(params.quota_mech){
+                centralServer->incr_loss_count(this->dst->id, this->priority);
+            }
             admit_prob -= params.dp_beta * flow_size;
             if (!params.normalized_lat) {
                 admit_prob -= params.dp_beta;

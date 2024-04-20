@@ -94,6 +94,19 @@ void CentralServer::process(uint32_t src_id,uint32_t dst_id, int qos_class,doubl
 bool CentralServer::receive_info_from_central_node(uint32_t src_id, uint32_t dst_id, int qos_class) {
     // Implement the logic to process the info received from the nodes
     // std::cout << "receive_info_from_central_node" << std::endl;
+
+    if(params.quota_mech){
+       if(stack_counter_per_qos_per_dest[{qos_class, dst_id}] >= 5){
+           stack_counter_per_qos_per_dest[{qos_class, dst_id}] = 0;
+        //    std::cout << "DIVI: Dropped\n";
+           return false;
+       }
+       else{
+           return true;
+       }
+       
+    }
+
     double val = (double)rand() / (RAND_MAX);
 
     if(val <= this->channels[qos_class][{src_id, dst_id}]->admit_prob) {
@@ -118,4 +131,8 @@ bool CentralServer::conn_to_central_node(){
 
 std::uint32_t CentralServer::get_failure_count(){
     return this->failure_count;
+}
+
+void CentralServer::incr_loss_count(uint32_t dst_id, int priority){
+    this->stack_counter_per_qos_per_dest[{priority, dst_id}]++;
 }

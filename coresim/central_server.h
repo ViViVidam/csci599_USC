@@ -52,7 +52,11 @@ public:
 
     bool conn_to_central_node();
 
+    std::map<std::pair<uint32_t, uint32_t>, uint32_t> stack_counter_per_qos_per_dest;    
+
     std::uint32_t get_failure_count();
+
+    void incr_loss_count(uint32_t dst_id, int priority);
 
     void send_info_to_central(uint32_t flow_id,int priority, double qos_latency, uint32_t src_id, uint32_t dst_id,int flow_size);
 

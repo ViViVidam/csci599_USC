@@ -31,6 +31,7 @@ public:
     std::vector<int> buffer_carving;
     uint32_t enable_central_server;
     uint32_t test_failure;
+    uint32_t quota_mech;
 
     double propagation_delay;
     double bandwidth;
