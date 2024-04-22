@@ -33,8 +33,8 @@ protected:
     std::vector<std::vector<double>> channels_PL;
     uint32_t use_endp_ctl = 0;
     uint32_t count_channel = 0;
-    double alpha = 0.8;
-    double beta = 0.2;
+    double alpha = 0.5;
+    double beta = 0.5;
 public:
     /*
       central server needs to know about all the data in the setup
