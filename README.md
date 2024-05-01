@@ -1,11 +1,9 @@
-# Aequitas
+# Centralized Admisson control server
 This project contains the simulator code used in Aequitas.
+([Paper](https://dl.acm.org/doi/10.1145/3544216.3544271))
 
 The simulator is based on [YAPS](https://github.com/NetSys/simulator).
 
-For more details, please refer to our SIGCOMM' 22 paper. <!-- TODO: add paper link after camera-ready -->
-
-For SIGCOMM' 22 artifact evaluation, please refer to the <strong>artifact-eval</strong> branch.
 
 # Build
 ```
@@ -17,6 +15,12 @@ automake --add-missing
 ./configure
 make
 ```
+
+# Notes
+- By default Master branch Contains approach - 2
+- Quota Server Branch Contains only approach - 1 discussed in the report.
+- The below configuration is mostly unchanged, but there are slightly new fields added please check py/conf_temp.txt
+  and accordingly use the required fields
 
 # Configuration
 Before launching the simulator, you may want to configure a few parameters in the configuration file located in Aequitas/py.
@@ -53,4 +57,7 @@ Please consider citing our paper if you find Aequitas related to your research p
 ```
 
 # Contact
-Yiwen Zhang (yiwenzhg@umich.edu)
+- Wentai Xie(wentaixi@usc.edu)
+- Divesh Chowdary(gude@usc.edu)
+- Yuzhou Zhong(yzhong47@usc.edu)
+
