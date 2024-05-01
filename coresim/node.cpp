@@ -9,6 +9,7 @@
 #include "queue.h"
 #include "../ext/factory.h"
 #include "../run/params.h"
+#include "../coresim/node.h"
 
 
 extern DCExpParams params;

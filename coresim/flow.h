@@ -78,6 +78,8 @@ class Flow {
 
         uint32_t id;
         double start_time;
+        double dst_reciv_time;
+        double dst_send_time;
         double finish_time;
         //double current_event_time;
         uint32_t size;
@@ -88,7 +90,6 @@ class Flow {
         double retx_timeout;
         uint32_t mss;
         uint32_t hdr_size;
-
         // Sender variables
         uint64_t next_seq_no;        // DC if using channel-based CC
         uint64_t last_unacked_seq;   // DC if using channel-based CC
@@ -105,7 +106,6 @@ class Flow {
         uint64_t recv_till;
         uint64_t max_seq_no_recv;       // Yiwen: TBH, I think the name should be 'max_seq_recv' based on the logic implemented in this simulator
         std::vector<uint64_t> received_seq;
-
         uint32_t total_pkt_sent;
         int size_in_pkt;
         int pkt_drop;
@@ -132,7 +132,6 @@ class Flow {
         Channel *channel;
         AggChannel *agg_channel;
         //Channel *ack_channel;
-
         // used by D3 and/or PDQ
         double prev_desired_rate;       // desired_rate in the prev RTT (past info required by the router)
         double allocated_rate;          // rate to send in the current RTT (assigned by router during last RTT)

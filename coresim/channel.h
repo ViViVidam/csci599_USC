@@ -81,6 +81,8 @@ class Channel {
         double retx_timeout;
         ChannelRetxTimeoutEvent *retx_event;
         double fct;             // most recent rpc fct
+
+        uint32_t total_pkt_recv;
         double rtt;             // used to enforce per rtt MD; in us; keep updated with new delay
         double last_update_time;
         double last_decrease_ts;    // time when the most recent MD takes place

@@ -64,11 +64,12 @@ AggChannel::~AggChannel() {
         delete x;
     }
 }
-
+//flow completion tome
 void AggChannel::process_latency_signal(double fct_in, uint32_t flow_id, int flow_size) {
     if (params.normalized_lat) {
         fct_in = fct_in / flow_size;
     }
+    //std::cout << fct_in << " " << RPC_latency_target << std::endl;
     if (fct_in > RPC_latency_target) {    // increment with incoming miss
         num_misses_in_mem++;        // assuming entire window >= memory size; Idea 1
         if (priority == 0) {
@@ -76,8 +77,8 @@ void AggChannel::process_latency_signal(double fct_in, uint32_t flow_id, int flo
         }
     }
     num_rpcs_in_memory++;
-
     // Idea2: count by time
+
     double current_memory_time = get_current_time();
     if ((current_memory_time - memory_start_time) * 1e6 > memory_time_duration || num_misses_in_mem > 0) {
         collect_memory = true;
@@ -94,13 +95,12 @@ void AggChannel::process_latency_signal(double fct_in, uint32_t flow_id, int flo
         } else {
             //// Always use normalized beta value; i.e., always do dp_beta * flow_size regardless of the value of params.normalized_lat
             admit_prob -= params.dp_beta * flow_size;
-            /*
             if (!params.normalized_lat) {
                 admit_prob -= params.dp_beta;
             } else {
                 admit_prob -= params.dp_beta * flow_size;    // flow_size is in # of MTUs for now
             }
-            */
+
             if (admit_prob < 0.1) {
                 admit_prob = 0.1;
             }
@@ -125,11 +125,11 @@ void AggChannel::process_latency_signal(double fct_in, uint32_t flow_id, int flo
 
             }
         }
-
         num_misses_in_mem = 0;
         num_rpcs_in_memory = 0;
         collect_memory = false;
     }
+
 }
 
 Channel* AggChannel::pick_next_channel_RR() {
